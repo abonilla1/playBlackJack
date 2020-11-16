@@ -110,16 +110,18 @@ html {
     margin-right: 25px;
     border-radius: 25%;
     padding: 23px;
-    background-color: lightgreen;
+    background-color: rgba(188, 250, 188, 0.651);
   }
   #stand{
     margin-top: 30px;
     border-radius: 25%;
     padding: 23px;
+    background-color: rgba(201, 245, 143, 0.555);
   }
   #split{
     margin-top: 30px;
     margin-left: 70px;
     border-radius: 25%;
     padding: 23px;
+    background-color: rgba(245, 181, 181, 0.719);
   }
