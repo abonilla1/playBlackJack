@@ -15,12 +15,88 @@ html {
       font-size: 62.5%
   }
   body {
-    background-color: gray;
+    background-color: rgb(21, 116, 76);
     /* Use a system font, if none are available use an available sans-sarif font */
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
           Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     margin: 0;
-    color: whitesmoke;
-    display: flex;
     height: 100vh;
+    color: whitesmoke;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 0.6fr 3fr 1fr 2.5fr 1fr;
+    grid-template-areas: 
+    'header header header header'
+    'dealer dealer dealer dealer'
+    'insurance insurance insurance insurance'
+    'message player player player'
+    'bets . cash actions';
+  }
+
+  #dealer{
+      grid-area: dealer;
+      place-content: center;
+      background-color: white;
+  }
+  #player{
+      grid-area: player;
+      background-color: white;
+      justify-self: end;
+  }
+
+  #insurance{
+      grid-area: insurance;
+  }
+ 
+  #message{
+      grid-area: message;
+  }
+
+  #bets{
+      grid-area: bets;
+      display: flex;
+      align-content: center;
+      margin: 25px;
+      padding: 25px;
+      
+  }
+  #dd{
+      border-radius: 50%;
+      justify-content: center;
+  }
+  #five{
+      border-radius: 50%;
+      justify-content: center;
+  }
+  #ten{
+      border-radius: 50%;
+      justify-content: center;
+  }
+  #two-five{
+      border-radius: 50%;
+      justify-content: center;
+  }
+  #fifty{
+      border-radius: 50%;
+      justify-content: center;
+  }
+
+  #cash-box{
+      grid-area: cash;
+      display: flex;
+  }
+
+  #cash-box first-child{
+      grid-area: cash;
+      flex-direction: column;
+  }
+  #cash-box last-child{
+      grid-area: cash;
+      flex-direction: column;
+  }
+  #playerMove{
+      grid-area: actions;
+      display: flex;
+      justify-content: center;
+
   }
