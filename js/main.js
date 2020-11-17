@@ -58,8 +58,6 @@ let isWinner, turn, gameDeck
 
 /*----- functions -----*/
 
-
-
 function createDeck() {
     deck = [];
     for(let i =0; i < suits.length; i++){
@@ -81,29 +79,36 @@ function shuffle(deck) {       //will shuffle using Fisher-Yates method
       deck[idx] = temp;
     }
     return deck;
-}                                      
+}    
+
+function render() {
+    table.calcPayout
+    table.updateCashFlow
+    table.trackBets
+
+}
 
 function play() {    
     let newDeck = createDeck();
     gameDeck = shuffle(newDeck);
     isWinner = null;
     turn = 1;
-    //render();
+    render();
     return gameDeck;
 }
-
-
-//function render () {
-
-//}
 
 function deal() {
     player.hand = gameDeck.splice(0,2);
     dealer.hand = gameDeck.splice(0,2);
 }
 
+function hit () {
+    player.hand = player.hand.concat(gameDeck.splice(0,1));
+}
+
 play();
 deal();
+hit();
 console.log(gameDeck)
 console.log(player.hand)
 console.log(dealer.hand)
