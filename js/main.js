@@ -1,43 +1,41 @@
 /*----- constants -----*/
+const suits = ['Spades', 'Clubs', 'Diamonds', 'Hearts']
+const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']; 
+const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10 , 10, 10, 11]; 
+//values and ranks are parallel arrays 
 
 class card {
-    constructor(name, suit, value) {
-        this.name = name;
-        this.suit = suit;
+    constructor(suit, rank, value) {
+        this.name = `${rank} of ${suit}`;
         this.value = value;
+        this.suit = suit 
     }
-}
+} //creates card class
 
-class deck {
-    constructor(suit, value){
-        this.suit = ['Hearts', 'Clubs', 'Diamonds', 'Spades'];
-        this.value = []
-    }
-}
 
+/* At some point I want to create a deck constructor for cleaner syntax however will address that after getting basic syntax down */
 
 
 
 
 /*----- app's state (variables) -----*/
-
-
-
-
+let winner = null;
+let turn = null;
+let player = null;
 
 
 
 /*----- cached element references -----*/
 
 
-
-
-
+// let messageOutput = document.getElementById('message');
+// let playerCash = document.getElementById('cash');
+// let cashBalance = document.getElementById('cash-balance');
 
 
 /*----- event listeners -----*/
 
-
+// body.addEventListener('click')
 
 
 
@@ -45,9 +43,24 @@ class deck {
 
 
 /*----- functions -----*/
+function createDeck() {
+    deck = [];
+    for(let i =0; i < suits.length; i++){
+        for(let j=0; j <ranks.length; j++){
+            newCard = new card(suits[i], ranks[j], values[j]);
+            deck.push(newCard);
+        }
+    }
+    return deck;
+}  //creates initial deck of cards
+
+function play() {
+    let newDeck = createDeck();
+    console.log(newDeck)
+}
 
 
-
+play();
 
 // shuffle/continue()
 // deal()
@@ -59,4 +72,4 @@ class deck {
 // update$()
 // bet() //this will work in conjunction with update$ because the total amount of money will be related to the bet amount/payout
 // calcPayout()
-// play()/initialize()
+// 
