@@ -53,12 +53,28 @@ function createDeck() {
     }
     return deck;
 }  //creates initial deck of cards
+//need to find a way to make ace also equal to 1//
 
-function play() {
+function shuffle(deck) {       //will shuffle using Fisher-Yates method 
+    let m = deck.length, temp, idx;
+    while (m) {
+      idx = Math.floor(Math.random() * m--);
+      temp = deck[m];
+      deck[m] = deck[idx];
+      deck[idx] = temp;
+    }
+    return deck;
+}                                      
+
+function play() {    
     let newDeck = createDeck();
-    console.log(newDeck)
+    let gameDeck = shuffle(newDeck);
+    render();
 }
 
+function render () {
+
+}
 
 play();
 

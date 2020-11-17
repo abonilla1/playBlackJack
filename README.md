@@ -22,7 +22,7 @@ Pseudocode
 
 
 1. Define constants 
-    1.   Deck of Cards with 52 values (maybe 3 or 4 decks of cards?)
+    1.   Deck of Cards with 52 values //(complete 11/17/20)
     2.   Const Player1 object with null hand, initial cash amount
     3.   Const board with bet amounts, action buttons and initial state
     4.   Const Dealer with null hand (initially
