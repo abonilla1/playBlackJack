@@ -4,6 +4,11 @@ const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'K
 const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10 , 10, 10, 11]; 
 //values and ranks are parallel arrays 
 
+const Dealer = {
+    name: Dealer,
+    points: null
+}
+
 class card {
     constructor(suit, rank, value) {
         this.name = `${rank} of ${suit}`;
@@ -11,19 +16,20 @@ class card {
         this.suit = suit 
     }
 } //creates card class
-
-
 /* At some point I want to create a deck constructor for cleaner syntax however will address that after getting basic syntax down */
 
+class player {
+    constructor(name, points) {
+        this.name = name;
+        this.cash = 250;
+        this.points = null;
+    }
+}
 
-
+//new players start with $250
 
 /*----- app's state (variables) -----*/
-let winner = null;
-let turn = null;
-let player = null;
-
-
+let isWinner, turn, board; 
 
 /*----- cached element references -----*/
 
@@ -36,8 +42,6 @@ let player = null;
 /*----- event listeners -----*/
 
 // body.addEventListener('click')
-
-
 
 
 
@@ -69,7 +73,8 @@ function shuffle(deck) {       //will shuffle using Fisher-Yates method
 function play() {    
     let newDeck = createDeck();
     let gameDeck = shuffle(newDeck);
-    render();
+    let player1 = player.constructor(name);
+    
 }
 
 function render () {

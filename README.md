@@ -23,9 +23,9 @@ Pseudocode
 
 1. Define constants 
     1.   Deck of Cards with 52 values //(complete 11/17/20)
-    2.   Const Player1 object with null hand, initial cash amount
+    2.   player class, from which instances of player can be defined //(complete 11/17/20)
     3.   Const board with bet amounts, action buttons and initial state
-    4.   Const Dealer with null hand (initially
+    4.   Const Dealer object with null points //(complete 11/17/20)
 
 2.  Game initializes with null dealer and player card values
     1. Initialize function calls render function
