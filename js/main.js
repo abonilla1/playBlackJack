@@ -9,6 +9,18 @@ const Dealer = {
     points: null
 }
 
+const table = {
+    trackBet() {
+
+    },
+    calcPayout() {
+
+    },
+    updateCashFlow() {
+    
+    }
+}
+
 class card {
     constructor(suit, rank, value) {
         this.name = `${rank} of ${suit}`;
@@ -24,12 +36,14 @@ class player {
         this.cash = 250;
         this.points = null;
     }
-}
+    bet(x) {
 
+    }
+}
 //new players start with $250
 
 /*----- app's state (variables) -----*/
-let isWinner, turn, board; 
+let isWinner, turn 
 
 /*----- cached element references -----*/
 
@@ -73,8 +87,11 @@ function shuffle(deck) {       //will shuffle using Fisher-Yates method
 function play() {    
     let newDeck = createDeck();
     let gameDeck = shuffle(newDeck);
-    let player1 = player.constructor(name);
-    
+    let playername = getName();
+    let player1 = player.constructor(playername);
+    isWinner = null;
+    turn = 1;
+    render();
 }
 
 function render () {
@@ -83,7 +100,7 @@ function render () {
 
 play();
 
-// shuffle/continue()
+//continue()
 // deal()
 // getPoints()
 // splitHand()
@@ -92,5 +109,3 @@ play();
 // checkWin()
 // update$()
 // bet() //this will work in conjunction with update$ because the total amount of money will be related to the bet amount/payout
-// calcPayout()
-// 
