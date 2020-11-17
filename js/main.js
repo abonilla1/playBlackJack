@@ -4,46 +4,42 @@ const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'K
 const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10 , 10, 10, 11]; 
 //values and ranks are parallel arrays 
 
-const Dealer = {
-    name: Dealer,
-    points: null
-}
+class card {
+    constructor(suit, rank, value) {
+        this.name = `${rank} of ${suit}`;
+        this.value = value;
+        this.suit = suit; 
+    }
+} //creates card class
+/* At some point I want to create a deck constructor for cleaner syntax however will address that after getting basic syntax down */
 
 const table = {
-    trackBet() {
-
-    },
     calcPayout() {
 
     },
     updateCashFlow() {
     
+    },
+    trackBets() {
+
     }
 }
 
-class card {
-    constructor(suit, rank, value) {
-        this.name = `${rank} of ${suit}`;
-        this.value = value;
-        this.suit = suit 
-    }
-} //creates card class
-/* At some point I want to create a deck constructor for cleaner syntax however will address that after getting basic syntax down */
 
-class player {
-    constructor(name, points) {
-        this.name = name;
-        this.cash = 250;
-        this.points = null;
-    }
-    bet(x) {
-
-    }
+const player = {
+    cash: 250,
+    points: null,
+    hand: null
 }
 //new players start with $250
 
+const dealer = {
+    points: null,
+    hand: null
+}
+
 /*----- app's state (variables) -----*/
-let isWinner, turn 
+let isWinner, turn, gameDeck
 
 /*----- cached element references -----*/
 
@@ -61,6 +57,9 @@ let isWinner, turn
 
 
 /*----- functions -----*/
+
+
+
 function createDeck() {
     deck = [];
     for(let i =0; i < suits.length; i++){
@@ -86,19 +85,28 @@ function shuffle(deck) {       //will shuffle using Fisher-Yates method
 
 function play() {    
     let newDeck = createDeck();
-    let gameDeck = shuffle(newDeck);
-    let playername = getName();
-    let player1 = player.constructor(playername);
+    gameDeck = shuffle(newDeck);
     isWinner = null;
     turn = 1;
-    render();
+    //render();
+    return gameDeck;
 }
 
-function render () {
 
+//function render () {
+
+//}
+
+function deal() {
+    player.hand = gameDeck.splice(0,2);
+    dealer.hand = gameDeck.splice(0,2);
 }
 
 play();
+deal();
+console.log(gameDeck)
+console.log(player.hand)
+console.log(dealer.hand)
 
 //continue()
 // deal()
