@@ -29,7 +29,7 @@ Pseudocode
 
 2.  Game initializes with null dealer and player point values
     1. Initialize function calls render function
-    2. Player indicates intention to start game (Deal function)
+    2. Player indicates intention to start game (Deal function) //(Deal function complete 11/17/20)
         1. Cards shuffle and player prompted to bet
         2. Player places bet 
         3. Two cards are dealt face up to player and two cards (one up and one down) to dealer (deal function)

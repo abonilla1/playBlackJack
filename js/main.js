@@ -9,6 +9,7 @@ class card {
         this.name = `${rank} of ${suit}`;
         this.value = value;
         this.suit = suit; 
+        this.rank = rank;
     }
 } //creates card class
 /* At some point I want to create a deck constructor for cleaner syntax however will address that after getting basic syntax down */
@@ -25,21 +26,51 @@ const table = {
     }
 }
 
+function calcPoints (rival) {
+    let points = 0;
+    rival.hand.forEach((element) => {
+        points += element.value;
+            if (points > 21 && element.rank == 'Ace') {
+                element.value =1;
+            }
+    })
+    return points;
+}
+
 
 const player = {
-    cash: 250,
-    points: null,
-    hand: null
-}
-//new players start with $250
+    points: 0,
+    hand: null,
+    calcPoints() {
+        this.hand.forEach((element) => {
+            this.points += element.value;
+                if (this.points > 21 && element.rank == 'Ace') {
+                    element.value =1;
+                }
+        })
+        return this.points;
+    }
+}    
+    
+//move the cash/bet/payout/wallet all to table object to handle
+
 
 const dealer = {
-    points: null,
-    hand: null
+    points: 0,
+    hand: null,
+    calcPoints() {
+        this.hand.forEach((element) => {
+            this.points += element.value;
+                if (this.points > 21 && element.rank == 'Ace') {
+                    element.value =1;
+                }
+        })
+        return this.points;
+    }
 }
 
 /*----- app's state (variables) -----*/
-let isWinner, turn, gameDeck
+let isWinner, turn, gameDeck, gameStart, gameOver
 
 /*----- cached element references -----*/
 
@@ -81,19 +112,19 @@ function shuffle(deck) {       //will shuffle using Fisher-Yates method
     return deck;
 }    
 
-function render() {
-    table.calcPayout
-    table.updateCashFlow
-    table.trackBets
+// function render() {
+//     table.calcPayout
+//     table.updateCashFlow
+//     table.trackBets
 
-}
+// }
 
 function play() {    
     let newDeck = createDeck();
     gameDeck = shuffle(newDeck);
     isWinner = null;
     turn = 1;
-    render();
+    // render();
     return gameDeck;
 }
 
@@ -106,19 +137,34 @@ function hit () {
     player.hand = player.hand.concat(gameDeck.splice(0,1));
 }
 
+
+
+// function calcPoints (rival) {
+//     let points = 0;
+//     rival.hand.forEach((element) => {
+//         points += element.value;
+//             if (points > 21 && element.rank == 'Ace') {
+//                 element.value =1;
+//             }
+//     })
+//     return points;
+// }
+
+
+
 play();
 deal();
-hit();
-console.log(gameDeck)
 console.log(player.hand)
-console.log(dealer.hand)
+player.calcPoints()
+console.log(player.points)
+
+
+
+
 
 //continue()
-// deal()
-// getPoints()
 // splitHand()
-// push() //this will be similar to split hand because you are carrying over data
-// hit()
+// push() //this will a condition, should not be a function
 // checkWin()
 // update$()
 // bet() //this will work in conjunction with update$ because the total amount of money will be related to the bet amount/payout
