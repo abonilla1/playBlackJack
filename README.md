@@ -27,7 +27,7 @@ Pseudocode
     3.   Const board with bet amounts, action buttons and initial state //(complete 11/17/20)
     4.   Const Dealer object with null points //(complete 11/17/20)
 
-2.  Game initializes with null dealer and player point values
+2.  Game initializes with point values of 0
     1. Initialize function calls render function
     2. Player indicates intention to start game (Deal function) //(Deal function complete 11/17/20)
         1. Cards shuffle and player prompted to bet

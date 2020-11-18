@@ -4,35 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlackJack</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sancreek&display=swap" rel="stylesheet"> 
     <link rel='stylesheet' href='css/style.css'></style>
 </head>
 <body>
-    <header>Play BlackJack!</header>
-    <section id='dealer'></section>
-    <section id='player'></section>
-    <h3 id='message'>Message</h3>
-    <section id='insurance'></section>
-        <button id='side-bet'>Side bet/ $25</button>
-    <section id='cashbox'>
-        <h3 id='cash'>$250</h3>
-        <h3 id='cash-balance'>$0</h3>
-    </section>
-    <section id='bets'>
+    <header>
+        <h1>Play BlackJack!</h1>
+    </header>
+    <container id='playing-field'>
+        <!-- <div id='dealer'></div>
+        <hr>
+        <div id='player'></div> -->
+    </container>
+    <container id='status-box'>
+        <h3 id='message'>Message</h3>
+        <span>Current Cash:<h3 id='wallet'>$100</h3></span>
+        <input type='text' id='bet' placeholder='Enter your bet!'>
+        <input type='text' id='side-bet' placeholder= 'Enter Insurance Bet'> 
+    </container>
+    <container id='action'>
         <button id='dd'>Double Down!</button>
-        <button id='five'>Bet $5</button>
-        <button id='ten'>Bet $10</button>
-        <button id='two-five'>Bet $25</button>
-        <button id='fifty'>Bet $50</button>
-        
-    </section>
-
-    
-
-    <section id='playerMove'>
         <button id='split'>Split</button>
         <button id='stand'>Stand</button>
         <button id='hit'>Hit</button>
-    </section>
+        <button id='fold'>Fold</button>
+    </container>
     <script src='js/main.js'></script>
 </body>
 </html>

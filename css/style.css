@@ -1,127 +1,81 @@
 html {
     box-sizing: border-box
-  }
-  /* The Universal Selector */
-  *, /* All elements*/
-  *::before, /* All ::before pseudo-elements */
-  *::after { /* All ::after pseudo-elements */
+}
+
+/* The Universal Selector */
+*, /* All elements*/
+*::before, /* All ::before pseudo-elements */
+*::after { /* All ::after pseudo-elements */
     /* height & width will now include border & padding by default
-       but can be over-ridden as needed */
+     but can be over-ridden as needed */
     box-sizing: inherit;
-  }
-  /* resets font size to be 62.5% of the user preference - 
-       in most browser configurations this will be 10px */
-  :root {
-      font-size: 62.5%
-  }
-  body {
-    background-color: rgb(21, 116, 76);
+}
+    /* resets font size to be 62.5% of the user preference - 
+    in most browser configurations this will be 10px */
+:root {
+    font-size: 62.5%
+}
+body {
+    background-image: linear-gradient(to bottom, #442525, #592424, #6e2222, #821f1f, #961919);
     /* Use a system font, if none are available use an available sans-sarif font */
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
           Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     margin: 0;
     height: 100vh;
-    color: whitesmoke;
+    color: #fff4f0;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 0.6fr 3fr 1fr 2.5fr 1fr;
-    grid-template-areas: 
-    'header header header header'
-    'dealer dealer dealer dealer'
-    'insurance insurance insurance insurance'
-    'message player player player'
-    'bets . cash actions';
-  }
+    grid-template-columns: 0.75fr 3fr 0.75fr;
+    grid-template-rows: 1fr 1fr 1fr;
+   
+}
 
-  #dealer{
-      grid-area: dealer;
-      place-content: center;
-      background-color: white;
-  }
-  #player{
-      grid-area: player;
-      background-color: white;
-      justify-self: end;
-  }
+header{
+    margin: auto;
+    font-family: 'Sancreek', cursive;
+    font-size: 1.5rem;
 
-  #insurance{
-      grid-area: insurance;
-  }
- 
-  #message{
-      grid-area: message;
-  }
+}
 
-  #bets{
-      grid-area: bets;
-      display: flex;
-      align-content: center;
-      margin: 25px;
-      padding: 25px;
-      
-  }
-  #sidebet{
-      grid-area: insurance;
-  }
+#playing-field{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 4;
+    border: 3px solid black;
+    border-radius: 10%;
 
-  #dd{
-      border-radius: 50%;
-      justify-content: center;
-  }
-  #five{
-      border-radius: 50%;
-      justify-content: center;
-  }
-  #ten{
-      border-radius: 50%;
-      justify-content: center;
-  }
-  #two-five{
-      border-radius: 50%;
-      justify-content: center;
-  }
-  #fifty{
-      border-radius: 50%;
-      justify-content: center;
-  }
+}
+#dealer {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    
+}
 
-  #cash-box{
-      grid-area: cash;
-      display: flex;
-  }
+#player {
+    grid-column-start: -3;
+    grid-column-end: -2;
+    grid-row-start: 3;
+}
 
-  #cash-box first-child{
-      grid-area: cash;
-      flex-direction: column;
-  }
-  #cash-box last-child{
-      grid-area: cash;
-      flex-direction: column;
-  }
-  #playerMove{
-      grid-area: actions;
-      display: inline-block;
-      align-content: center;
-      border-radius: 20%;
+#action {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    display: grid;
+    margin-right: 30px;
+    margin-left: 10px;
+    
+}
 
-  }
-  #hit {
-    margin-top: 30px;
-    margin-right: 25px;
-    border-radius: 25%;
-    padding: 23px;
-    background-color: rgba(188, 250, 188, 0.651);
-  }
-  #stand{
-    margin-top: 30px;
-    border-radius: 25%;
-    padding: 23px;
-    background-color: rgba(201, 245, 143, 0.555);
-  }
-  #split{
-    margin-top: 30px;
-    margin-left: 70px;
-    border-radius: 25%;
-    padding: 23px;
-    background-color: rgba(245, 181, 181, 0.719);
-  }
+#status-box {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    display: grid;
+    justify-items: stretch;
+    margin-left: 30px;
+    margin-right: 10px;
+    font-size: 1.4rem;
+}
+

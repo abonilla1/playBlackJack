@@ -15,28 +15,32 @@ class card {
 /* At some point I want to create a deck constructor for cleaner syntax however will address that after getting basic syntax down */
 
 const table = {
+    bet: null,
+    sidebet: null,
+    wallet: 100,
+    getbet() {
+        this.bet = parseInt(document.getElementById('bet').value);
+        this.wallet -= this.bet;
+        if (this.sidebet != null) {
+            this.sidebet = parseInt(document.getElementById('side-bet').value);
+            this.wallet -= this.sidebet;
+        }
+    },
     calcPayout() {
-
-    },
-    updateCashFlow() {
-    
-    },
-    trackBets() {
-
+        if (player.isWinner) {
+            if (player.hand.length === 2 && player.points === 21) {
+                this.wallet += (this.bet * 1.5);
+            }
+            else {
+                this.wallet += this.bet;
+            }
+        } else {
+            if (dealer.points === 21 && this.sidebet != null){
+                this.wallet += this.sidebet;
+            }
+        }
     }
 }
-
-function calcPoints (rival) {
-    let points = 0;
-    rival.hand.forEach((element) => {
-        points += element.value;
-            if (points > 21 && element.rank == 'Ace') {
-                element.value =1;
-            }
-    })
-    return points;
-}
-
 
 const player = {
     points: 0,
@@ -49,12 +53,10 @@ const player = {
                 }
         })
         return this.points;
-    }
+    },
+    isWinner: false
 }    
     
-//move the cash/bet/payout/wallet all to table object to handle
-
-
 const dealer = {
     points: 0,
     hand: null,
@@ -66,18 +68,19 @@ const dealer = {
                 }
         })
         return this.points;
-    }
+    },
+    isWinner: false
 }
 
 /*----- app's state (variables) -----*/
-let isWinner, turn, gameDeck, gameStart, gameOver
+let turn, gameDeck, gameStart, gameOver, stageOne, stageTwo
 
 /*----- cached element references -----*/
 
 
-// let messageOutput = document.getElementById('message');
-// let playerCash = document.getElementById('cash');
-// let cashBalance = document.getElementById('cash-balance');
+let messageOutput = document.getElementById('message');
+let playerCash = document.getElementById('cash');
+let cashBalance = document.getElementById('cash-balance');
 
 
 /*----- event listeners -----*/
@@ -113,20 +116,19 @@ function shuffle(deck) {       //will shuffle using Fisher-Yates method
 }    
 
 // function render() {
-//     table.calcPayout
-//     table.updateCashFlow
-//     table.trackBets
-
+//     wallet.inn
+    
 // }
+
 
 function play() {    
     let newDeck = createDeck();
     gameDeck = shuffle(newDeck);
-    isWinner = null;
     turn = 1;
     // render();
     return gameDeck;
 }
+
 
 function deal() {
     player.hand = gameDeck.splice(0,2);
@@ -137,19 +139,16 @@ function hit () {
     player.hand = player.hand.concat(gameDeck.splice(0,1));
 }
 
+function checkWin () {
 
+}
+function splitHand() {
 
-// function calcPoints (rival) {
-//     let points = 0;
-//     rival.hand.forEach((element) => {
-//         points += element.value;
-//             if (points > 21 && element.rank == 'Ace') {
-//                 element.value =1;
-//             }
-//     })
-//     return points;
-// }
+}
 
+function playNewGame () {
+        //ability to carry over wallet data 
+}
 
 
 play();
@@ -162,9 +161,6 @@ console.log(player.points)
 
 
 
-//continue()
-// splitHand()
+
 // push() //this will a condition, should not be a function
-// checkWin()
-// update$()
-// bet() //this will work in conjunction with update$ because the total amount of money will be related to the bet amount/payout
+
