@@ -21,14 +21,16 @@ const table = {
 
 const player = {
     isWinner: false,
+    isBust: false,
 }
 
 const dealer = {
     isWinner: false,
+    isBust: false,
 }
 
 /*----- app's state (variables) -----*/
-let gameDeck, gameOver, playerHand, dealerHand, playerPoints, dealerPoints, Bust
+let gameDeck, gameOver, playerHand, dealerHand, playerPoints, dealerPoints
 
 
 /*----- cached element references -----*/
@@ -90,10 +92,11 @@ quitBtn.addEventListener('click', () => {
 	window.close()
 })    
 
-bet.addEventListener('keyup', () => {
-    if (keyCode === 13) 
-    getbet();
-    renderStatus();
+bet.addEventListener('keyup', (e) => {
+    if (e.keyCode == 13) {
+        getbet();
+        renderStatus();
+    }
 });
 
 /*----- functions -----*/
@@ -203,6 +206,16 @@ function checkBlackJack(p) {
 }
 
 function dealersTurn(d) {
+    dealerPoints = calcPoints(d);
+    while (dealerPoints < 17) {
+        dealerHand.concat(gameDeck.splice(0,1));
+        dealerPoints = calcPoints(d);
+            if (dealerPoints > 21); {
+                player.isWinner = true;
+            }
+
+
+    };
 
 }
 // function checkWin (player, dealer) {
