@@ -13,22 +13,23 @@
         <h1>Play BlackJack!</h1>
     </header>
     <container id='playing-field'>
-        <!-- <div id='dealer'></div>
-        <hr>
-        <div id='player'></div> -->
     </container>
     <container id='status-box'>
         <h3 id='message'>Message</h3>
-        <span>Current Cash:<h3 id='wallet'>$100</h3></span>
+        <span>Current Cash:<h3 id='wallet'>100</h3></span>
+        <span>Current Bet:<h3 id='current-bet'>0</h3></span>
         <input type='text' id='bet' placeholder='Enter your bet!'>
-        <input type='text' id='side-bet' placeholder= 'Enter Insurance Bet'> 
     </container>
     <container id='action'>
+        
+        <button id='deal'>Deal</button>
         <button id='dd'>Double Down!</button>
-        <button id='split'>Split</button>
         <button id='stand'>Stand</button>
         <button id='hit'>Hit</button>
         <button id='fold'>Fold</button>
+        <button id='newGame'>New Game</button>
+        <button id='quit'>Quit</button>
+        
     </container>
     <script src='js/main.js'></script>
 </body>
