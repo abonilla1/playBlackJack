@@ -21,16 +21,15 @@ const table = {
 
 const player = {
     isWinner: false,
-    isBust: false,
+    blackjack: null,
 }
 
 const dealer = {
     isWinner: false,
-    isBust: false,
 }
 
 /*----- app's state (variables) -----*/
-let gameDeck, gameOver, playerHand, dealerHand, playerPoints, dealerPoints
+let gameDeck, playerHand, dealerHand, playerPoints, dealerPoints
 
 
 /*----- cached element references -----*/
@@ -43,6 +42,7 @@ const newGameBtn = document.getElementById('newGame');
 const doubleBtn = document.getElementById('dd');
 const standBtn = document.getElementById('stand');
 const hitBtn = document.getElementById('hit');
+const pushBtn = document.getElementById('push');
 const foldBtn = document.getElementById('fold');
 const dealBtn = document.getElementById('deal');
 const quitBtn = document.getElementById('quit');
@@ -60,21 +60,23 @@ doubleBtn.addEventListener('click', () => {
     console.log('extra party');
     //doubleDown();
     //renderStatus();
-    //handle dealers actions
-    //Checkwin
+    //dealersTurn(dealersHand);
 })   
        
 standBtn.addEventListener('click', () => {     
     console.log('nerves of steel');
-    //handle dealers actions
-    //checkWin
+    //dealersTurn(dealersHand);
 
 })      
 hitBtn.addEventListener('click', () => {
     console.log('going for broke');
-    //hit();
-    //renderHit();
-    //checkforwin
+    playerHand = playerHand.concat(gameDeck.splice(0,1));
+    //renderNextCard;
+    //checkforwin => renderWin
+})
+pushBtn.addEventListener('click', () => {
+    console.log('good luck');
+    //push
 })    
 foldBtn.addEventListener('click', () => {
     console.log('-$$$$$');
@@ -85,6 +87,7 @@ dealBtn.addEventListener('click', () => {
     console.log('feelin lucky?');
     //deal();
     //renderDeal();
+    //checkBlackJack => render win if True
 })
 quitBtn.addEventListener('click', () => {
     console.log('better luck next time');
@@ -140,25 +143,10 @@ function renderStatus() {
     (table.bet == 0) ? messageOutput.innerHTML = 'Place your Bet' : messageOutput.innerHTML = 'Select Next Action';
     wallet.innerHTML = `${table.wallet}`;
     currentBet.innerHTML = `${table.bet}`;
- 
+    
+    if(player.isWinner){
 
-
-    // all conditional rendering, all rendering decisions will be based on previous functions and results
-    // i.e. take classes away from stuff, show hide stuff
-    // append cards to div
-    // all update messages should be here
-    // call other functions from here if it starts getting unweildy  
-}
-function renderWin(){
-
-}
-
-function renderDeal(){
-
-}
-
-function renderHit(){
-
+    }
 }
 
 function calcPayout() {
@@ -173,12 +161,13 @@ function calcPayout() {
 }
 
 
-
-
 function deal(gameDeck) {
     playerHand = gameDeck.splice(0,2);
     dealerHand = gameDeck.splice(0,2);
-    renderDeal();
+    //renderDeal();
+}
+function renderDeal(){
+
 }
 
 function calcPoints(hand) {
@@ -192,10 +181,6 @@ function calcPoints(hand) {
     return points;
 }
 
-function hit () {
-    playerHand = playerHand.concat(gameDeck.splice(0,1));
-    renderHit();
-}
 
 function checkBlackJack(p) {
     playerPoints = calcPoints(p);
@@ -205,32 +190,63 @@ function checkBlackJack(p) {
     renderWin();
 }
 
-function dealersTurn(d) {
-    dealerPoints = calcPoints(d);
-    while (dealerPoints < 17) {
-        dealerHand.concat(gameDeck.splice(0,1));
-        dealerPoints = calcPoints(d);
-            if (dealerPoints > 21); {
-                player.isWinner = true;
-            }
-
-
-    };
-
-}
-// function checkWin (player, dealer) {
-//     playerPoints = calcPoints(player);
-//     dealerPoints = calcPoints(dealer);
-//     if (playerPoints > dealerPoints && playerPoints < 21) {
-//         player.isWinner = 'True';
-//     if( playerPoints === dealerPoints)
-//         player.isWinner = 'False' && dealer.isWinner = 'False'
-    
 
 
 function doubleDown() {
     table.bet = table.bet * 2;
     table.wallet = table.wallet - table.bet;
+}
+
+function renderNextCard(){
+
+}
+
+function dealersTurn(d) {
+    //render 2nd card face up at this time
+    dealerPoints = calcPoints(d);
+    while (dealerPoints < 17) {
+        dealerHand.concat(gameDeck.splice(0,1));
+        //render next card
+        dealerPoints = calcPoints(d);
+        if (dealerPoints > 21); {
+            player.isWinner = true;
+            dealer.isBust = true;
+        }
+        if (dealerPoints >= 17 && dealerPoints <= 21) {
+            if (dealerPoints> playerPoints) {
+                dealer.isWinner = true;
+            }
+            else if (dealerPoints === playerPoints){
+                player.isWinner = false;
+                dealer.isWinner = false;
+            }
+            else {
+                player.isWinner = true;
+                dealer.isWinner = false;
+            }
+        }
+    };
+    renderWin();
+}
+
+function renderWin(){
+    if (player.isWinner) && (player.blackjack) {
+        messageOutput.innerHTML = 'BlackJack!!';
+        //lots of styling extras
+        renderStatus();
+    }
+    if (player.isWinner) {
+        messageOutput.innerHTML = 'YOU WON!!!!';
+        //confetti drop
+        //large overlay message saying You won
+        renderStatus();
+    }
+    if (dealer.isWinner) {
+        // large overlay message saying you lost
+    }
+    if (!(dealer.isWinner) && !(player.isWinner)) {
+        renderStatus();
+    }
 }
 
 gameDeck = play();
