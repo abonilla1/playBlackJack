@@ -1,6 +1,6 @@
 /*----- constants -----*/
-const suits = ['Spades', 'Clubs', 'Diamonds', 'Hearts']
-const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']; 
+const suits = ['spades', 'clubs', 'diamonds', 'hearts']
+const ranks = ['02', '03', '04', '05', '06', '07', '08', '09', '10', 'J', 'Q', 'K', 'A']; 
 const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10 , 10, 10, 11]; 
 //values and ranks are parallel arrays 
 
@@ -20,12 +20,12 @@ const table = {
 }
 
 const player = {
-    isWinner: false,
+    isWinner: null,
     blackjack: null,
 }
 
 const dealer = {
-    isWinner: false,
+    isWinner: null,
 }
 
 /*----- app's state (variables) -----*/
@@ -143,23 +143,38 @@ function renderStatus() {
     (table.bet == 0) ? messageOutput.innerHTML = 'Place your Bet' : messageOutput.innerHTML = 'Select Next Action';
     wallet.innerHTML = `${table.wallet}`;
     currentBet.innerHTML = `${table.bet}`;
-    
-    if(player.isWinner){
-
+    if(player.isblackjack){
+        calcPayout();
+        wallet.innerHTML = `${table.wallet}`;
+        currentBet.innerHTML = `${table.bet}`;
+        messageOutput.innerHTML = 'BlackJack!!';
     }
+    if((player.isWinner)  && !(player.isblackjack)){
+        calcPayout();
+        wallet.innerHTML = `${table.wallet}`;
+        currentBet.innerHTML = `${table.bet}`;
+        messageOutput.innerHTML = 'You Won!!';
+
+    } 
+    if(dealer.isWinner) {
+        messageOutput.innerHTML = 'You LOST!!';
+    }
+    if(!(dealer.isWinner) && !(player.isWinner)) {
+        messageOutput.innerHTML = 'Tie hand, click Push button to deal again';
+        wallet.innerHTML = `${table.wallet} + ${table.bet}`;
+        currentBet.innerHTML = `0`;
+    }
+
 }
 
-function calcPayout() {
-    if (player.isWinner) {
-        if (player.hand.length === 2 && player.points === 21) {
-            table.wallet += (table.bet * 1.5);
-        }
-        else {
-            table.wallet += table.bet;
-        }
+function calcPayout() { 
+    if (player.blackjack) {
+        table.wallet += (table.bet * 1.5);
+    }
+    else {
+        table.wallet += table.bet;
     }
 }
-
 
 function deal(gameDeck) {
     playerHand = gameDeck.splice(0,2);
@@ -187,10 +202,8 @@ function checkBlackJack(p) {
     if (playerPoints===21) {
         player.isWinner;
     }
-    renderWin();
+    renderStatus();
 }
-
-
 
 function doubleDown() {
     table.bet = table.bet * 2;
@@ -226,27 +239,7 @@ function dealersTurn(d) {
             }
         }
     };
-    renderWin();
-}
-
-function renderWin(){
-    if (player.isWinner) && (player.blackjack) {
-        messageOutput.innerHTML = 'BlackJack!!';
-        //lots of styling extras
-        renderStatus();
-    }
-    if (player.isWinner) {
-        messageOutput.innerHTML = 'YOU WON!!!!';
-        //confetti drop
-        //large overlay message saying You won
-        renderStatus();
-    }
-    if (dealer.isWinner) {
-        // large overlay message saying you lost
-    }
-    if (!(dealer.isWinner) && !(player.isWinner)) {
-        renderStatus();
-    }
+    renderStatus();
 }
 
 gameDeck = play();
