@@ -43,19 +43,17 @@ header{
     grid-row-end: 4;
     border: 4px solid black;
     border-radius: 10%;
-
-}
-#dealer {
-    grid-column-start: 2;
-    grid-column-end: 3;
-    grid-row-start: 1;
-    
+    display: grid;
 }
 
-#player {
-    grid-column-start: -3;
-    grid-column-end: -2;
-    grid-row-start: 3;
+#player-side {
+  display:flex;
+  justify-content: center;
+}
+
+#dealer-side {
+  display:flex;
+  justify-content: center;
 }
 
 #action {
@@ -127,12 +125,13 @@ header{
   .card.diamonds.A,
   .card.dA,
   .card.♦A {
-    background-image: url("../images/diamonds/diamonds-A.svg"); }
-  
+    background-image: url("/images/diamonds/diamonds-A.svg")
+  }
   .card.diamonds.K,
   .card.dK,
   .card.♦K {
-    background-image: url("../images/diamonds/diamonds-K.svg"); }
+    background-image: url("/images/diamonds/diamonds-K.svg")
+  } 
   
   .card.diamonds.Q,
   .card.dQ,
@@ -384,23 +383,12 @@ header{
   .card.♣02 {
     background-image: url("../images/clubs/clubs-r02.svg"); }
   
-  .card.joker {
-    background-image: url("../images/jokers/joker.svg"); }
-  
-  .card.joker-black {
-    background-image: url("../images/jokers/joker-black.svg"); }
-  
-  .card.joker-red {
-    background-image: url("../images/jokers/joker-red.svg"); }
-  
   .card.back {
     background-image: url("../images/backs/blue.svg"); }
   
   .card.back-blue {
     background-image: url("../images/backs/blue.svg"); }
-  
-  .card.back-red {
-    background-image: url("../images/backs/red.svg"); }
+
   
   /* Re-orients the cards for different directions. While
      they are symmetric, it's still important to orient
