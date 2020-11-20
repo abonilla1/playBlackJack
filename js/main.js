@@ -1,4 +1,4 @@
-/*----- constants -----*/
+/*-------------------------------------------------- constants ------------------------------------------*/
 const suits = ['spades', 'clubs', 'diamonds', 'hearts']
 const ranks = ['r02', 'r03', 'r04', 'r05', 'r06', 'r07', 'r08', 'r09', 'r10', 'J', 'Q', 'K', 'A']; 
 const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10 , 10, 10, 11]; 
@@ -6,7 +6,7 @@ const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10 , 10, 10, 11];
 
 class card {
     constructor(suit, rank, value) {
-        this.name = `.card.${suit}.${rank}`;
+        this.name = `card.${suit}.${rank}`;
         this.value = value;
         this.suit = suit; 
         this.rank = rank;
@@ -16,7 +16,7 @@ class card {
     
 const table = {
     bet: 0,
-    wallet: 100,
+    wallet: 1000,
 }
 
 const player = {
@@ -31,11 +31,11 @@ const dealer = {
     bust: false,
 }
 
-/*----- app's state (variables) -----*/
+/*-------------------------------------------------- app's state (variables) ------------------------*/
 let gameDeck, playerHand, dealerHand, playerPoints, dealerPoints
 
 
-/*----- cached element references -----*/
+/*--------------------------------------- cached element references ---------------------------------*/
 
 
 const messageOutput = document.getElementById('message');
@@ -56,7 +56,7 @@ const quitBtn = document.getElementById('quit');
 const bet = document.getElementById('bet')
 //const actionDiv = document.getElementById('action');
 
-/*----- event listeners -----*/
+/*---------------------------------- event listeners ---------------------------------*/
 
 newGameBtn.addEventListener('click', () =>{
     console.log('party');
@@ -91,23 +91,23 @@ pushBtn.addEventListener('click', () => {
     console.log('good luck');
     gameDeck = shuffle(fold(playerHand, dealerHand, gameDeck));
     table.bet = 0;
+    bet.style.display='0';
     deal(gameDeck);
 })    
 
 foldBtn.addEventListener('click', () => {
     console.log('-$$$$$');
-    gameDeck = shuffle(fold(playerHand, dealerHand, gameDeck));
     table.bet = 0;
+    bet.style.display='0';
     renderStatus();
-    messageOutput.innerHTML = 'Click Deal to start a New Hand';
+    messageOutput.innerHTML = 'Click Next Hand to Try Again';
 })
 
 dealBtn.addEventListener('click', () => {
     console.log('feelin lucky?');
     deal(gameDeck);
     renderCards(playerHand, dealerHand);
-    checkBlackJack(playerHand);
-    
+    checkBlackJack(playerHand); 
 })
 
 nextBtn.addEventListener('click', () => {
@@ -117,7 +117,6 @@ nextBtn.addEventListener('click', () => {
     deal(gameDeck);
     renderCards(playerHand, dealerHand);
     checkBlackJack(playerHand);
-
 })
 
 quitBtn.addEventListener('click', () => {
@@ -226,21 +225,18 @@ function fold(playerHand, dealerHand, gameDeck){
 }
 
 function renderCards(playerHand, dealerHand){
-    let newCard = document.createElement('div');
     playerHand.forEach((element) => {
-        let cardDown = document.createElement('span');
-        cardDown.innerHTML = `${element.name}`
-        cardDown.classList.add(element.name);
-        cardDown.appendChild(newCard);
-        playerField.appendChild(cardDown);
+        let newCard = document.createElement('div')
+        newCard.innerHTML = `${element.name}`
+        newCard.className= element.name;
+        playerField.appendChild(newCard);
         
     })
     dealerHand.forEach((element) => {
-        let cardUp = document.createElement('span');
-        cardUp.innerHTML = `${element.name}`
-        cardUp.classList.add(element.name);
-        cardUp.appendChild(newCard);
-        dealerField.appendChild(cardUp)
+        let newCard2 = document.createElement('div');
+        newCard2.innerHTML = `${element.name}`;
+        newCard2.className = element.name;
+        dealerField.appendChild(newCard2)
     })
     
 }
@@ -292,8 +288,8 @@ function doubleDown() {
 function dealersTurn(dealerHand) {
     //render 2nd card face up at this time
     dealerPoints = calcPoints(dealerHand);
-    playerPoints = calcPoints(playerHand)
-    while (dealerPoints < 17) {
+    playerPoints = calcPoints(playerHand);
+    while (dealerPoints <= 16) {
         dealerHand.concat(gameDeck.splice(0,1));
         renderDHit(dealerHand);
         dealerPoints = calcPoints(dealerHand);
