@@ -7,7 +7,7 @@ const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10 , 10, 10, 11];
 
 class card {
     constructor(suit, rank, value) {
-        this.name = `${suit} ${rank}`
+        this.name = `${suit} ${rank}`;
         this.value = value;
         this.suit = suit; 
         this.rank = rank;
@@ -60,19 +60,20 @@ const bet = document.getElementById('bet');
 
 newGameBtn.addEventListener('click', () =>{
     console.log('party');
-    location.reload()  
+    location.reload() 
+    bet.innerText=''; 
 })
 
 doubleBtn.addEventListener('click', () => {
     console.log('extra party');
     doubleDown();
     renderStatus();
-    dealersTurn(dealerHand);
+    dealersTurn(dealerHand, playerHand, gameDeck);
 })   
        
 standBtn.addEventListener('click', () => {     
     console.log('nerves of steel');
-    dealersTurn(dealerHand);
+    dealersTurn(dealerHand, playerHand, gameDeck);
 })
 
 hitBtn.addEventListener('click', () => {
@@ -98,7 +99,7 @@ pushBtn.addEventListener('click', () => {
 foldBtn.addEventListener('click', () => {
     console.log('-$$$$$');
     table.bet = 0;
-    bet.style.display='0';
+    bet.style.display='';
     renderStatus();
     messageOutput.innerHTML = 'Click Next Hand to Try Again';
 })
@@ -111,7 +112,7 @@ dealBtn.addEventListener('click', () => {
 })
 
 nextBtn.addEventListener('click', () => {
-    currentBet.style.display = '0';
+    currentBet.style.display = 0;
     table.bet = 0;
     renderStatus();
     gameDeck = shuffle(fold(playerHand, dealerHand, gameDeck));
@@ -182,7 +183,7 @@ function calcPoints(hand) {
 
 function checkBlackJack(playerHand) {
     playerPoints = calcPoints(playerHand);
-    if (playerPoints===21) {
+    if (playerPoints === 21) {
         player.blackjack = true;
         renderStatus();
     }  
@@ -199,6 +200,7 @@ function renderStatus() {
         wallet.innerHTML = `${table.wallet}`;
         currentBet.innerHTML = `${table.bet}`;
         messageOutput.innerHTML = 'BlackJack!!';
+        bet.innerText=''; 
     }
     if(player.isWinner) {
         calcPayout();
@@ -208,9 +210,11 @@ function renderStatus() {
     } 
     if(player.bust) {
         messageOutput.innerHTML = 'BUST!!!';
+        bet.innerText=''; 
     }
     if(dealer.isWinner) {
         messageOutput.innerHTML = 'You LOST!!';
+        bet.innerText=''; 
     }
     if (player.tie) {
         messageOutput.innerHTML = 'Tie hand, click Push button to deal again';
@@ -222,7 +226,7 @@ function renderStatus() {
 function renderCards(playerHand, dealerHand){
     playerHand.forEach((element) => {
         let newCard = document.createElement('div')
-        let className1 =  `card large ${element.name}`;
+        let className1 = `card large ${element.name}`;
         newCard.className = className1;
         playerField.appendChild(newCard); 
     })
@@ -233,46 +237,26 @@ function renderCards(playerHand, dealerHand){
         dealerField.appendChild(newCard2)
     })  
 }
-/*   playArea.innerHTML = '';
-    cardsInPlay.forEach(function(card) {
-        0 denotes a card face down
-        if (card[0]) {
-            let appendCard = document.createElement("div");
-            appendCard.className = "card large back-red";
-            playArea.appendChild(appendCard);
-         1 denotes a card being guessed    
-        } else if (card[1]) {
-            let appendCard = document.createElement("div");
-            appendCard.className = `card large ${card[1]}`;
-            playArea.appendChild(appendCard);
-        2 denotes a card guessed correctly    
-        } else if (card[2]) {
-            let appendCard = document.createElement("div");
-            appendCard.className = `card large ${card[2]}`;
-            playArea.appendChild(appendCard);
-        }
-    */    
-
-
-
 
 function renderhit(playerHand) {
     let newCard3 = document.createElement('div');
-    let nextCardName = playerHand.slice(2);
-    newCard3.innerHTML = nextCardName;
-    newCard3.className = nextCardName.name;
+    let length = playerHand.length;
+    let cardToRender = playerHand[length-1];
+    let className3 = `card large ${cardToRender.name}`;
+    newCard3.className = className3;
     playerField.appendChild(newCard3);
 }
 
 function renderDHit(dealerHand) {
-    let newCard4 = document.createElement('div'.card);
-    let nextCardName = dealerHand.slice(2);
-    newCard4.innerHTML = nextCardName;
-    newCard4.className = nextCardName.name;
+    let newCard4 = document.createElement('div');
+    let length2 = dealerHand.length;
+    let cardToRender2 = dealerHand[length2-1];
+    let className4 = `card large ${cardToRender2.name}`
+    newCard4.className = className4
     dealerField.appendChild(newCard4);
 }
 
-// function renderEndHand(){
+// function renderEndSequence(){
 
 // }
 
@@ -311,39 +295,37 @@ function doubleDown() {
     table.wallet = table.wallet - table.bet;
 }
 
-function dealersTurn(dealerHand) {
+function dealersTurn(dealerHand, playerHand, gameDeck) {
     //render 2nd card face up at this time
-    dealerPoints = calcPoints(dealerHand);
-    playerPoints = calcPoints(playerHand);
-    while (dealerPoints <= 16) {
-        dealerHand.concat(gameDeck.splice(0,1));
-        renderDHit(dealerHand);
-        dealerPoints = calcPoints(dealerHand);
-    }    
-    if (dealerPoints > 21); {
-        player.isWinner = true;
-        dealer.bust = true;
-        renderStatus();
-    }
-    if (dealerPoints >= 17 && dealerPoints <= 21) {
-        if (dealerPoints > playerPoints) {
-            dealer.isWinner = true;
-            renderStatus();
-        }
-        else if (dealerPoints === playerPoints){
-            player.tie = true;
-            renderStatus();
-        }
-        else {
-            player.isWinner = true;
-            renderStatus();
-        }
-    }
-    if (dealerPoints > playerPoints){
+    dealerPoints = parseInt(calcPoints(dealerHand));
+    playerPoints = parseInt(calcPoints(playerHand));
+    if (dealerPoints > playerPoints && dealerPoints >=17){
         dealer.isWinner = true;
     }
+    while (dealerPoints <= 16) {
+        dealerHand = dealerHand.concat(gameDeck.splice(0,1));
+        console.log(dealerHand);
+        renderDHit(dealerHand);
+        dealerPoints += calcPoints(dealerHand);   
+        if (dealerPoints > 21) {
+            player.isWinner = true;
+            dealer.bust = true;
+        }
+        else if (dealerPoints >= 17 && dealerPoints <= 21) {
+            if (dealerPoints > playerPoints) {
+                dealer.isWinner = true;
+            }
+            else if (dealerPoints === playerPoints){
+                player.tie = true;
+            }
+            else {
+                player.isWinner = true;
+            }
+        }
+            
     renderStatus(); 
-}
+    }
+}    
 
 gameDeck = play();
 renderStatus();

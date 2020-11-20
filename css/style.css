@@ -33,6 +33,7 @@ header{
     font-family: 'Sancreek', cursive;
     font-size: 1.5rem;
     text-align: center;
+    color:rgba(240, 226, 147, 0.979);
 
 }
 
@@ -47,13 +48,18 @@ header{
 }
 
 #player-side {
-  display:flex;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
 }
 
 #dealer-side {
-  display:flex;
+  display: flex;
+  flex-direction: center;
   justify-content: center;
+  align-items: center;
+  
 }
 
 #action {
@@ -63,7 +69,7 @@ header{
     display: grid;
     margin-right: 20px;
     margin-left: 20px;
-    
+    font-weight: bold;
 }
 
 #status-box {
@@ -75,6 +81,97 @@ header{
     margin-left: 20px;
     margin-right: 20px;
     font-size: 1.4rem;
+    color: rgba(240, 226, 147, 0.979);
+    text-align: center;
+}
+#bet {
+    background-color: rgba(240, 226, 147, 0.979) ;
+    padding: 5px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    font-weight: bold;
+}
+#deal{
+    background-color:rgb(240, 226, 147);
+    margin: 2px;
+    font-weight: bold;
+    padding: 2px;
+}
+#deal:hover{
+    background-color: rgba(203, 185, 226, 0.822);
+
+}
+#dd{
+    background-color:rgb(240, 226, 147);
+    margin: 2px;
+    font-weight: bold;
+    padding: 2px;
+}
+#dd:hover{
+    background-color: rgba(203, 185, 226, 0.822);
+}
+#stand{
+    background-color:rgb(240, 226, 147);
+    margin: 2px;
+    font-weight: bold;
+    padding: 2px;
+}
+#stand:hover{
+    background-color: rgba(203, 185, 226, 0.822);
+}
+#hit{
+    background-color:rgb(240, 226, 147);
+    margin: 2px;
+    font-weight: bold;
+    padding: 2px;
+}
+#hit:hover{
+    background-color: rgba(203, 185, 226, 0.822);
+}
+#push{
+    background-color:rgb(240, 226, 147);
+    margin: 2px;
+    font-weight: bold;
+    padding: 2px;
+}
+#push:hover{
+    background-color: rgba(203, 185, 226, 0.822);
+}
+#fold{
+    background-color:rgb(240, 226, 147);
+    margin: 2px;
+    font-weight: bold;
+    padding: 2px;
+}
+#fold:hover{
+    background-color: rgba(203, 185, 226, 0.822);
+}
+#next-hand{
+    background-color:rgb(240, 226, 147);
+    margin: 2px;
+    font-weight: bold;
+    padding: 2px;
+}
+#next-hand:hover{
+    background-color: rgba(203, 185, 226, 0.822);
+}
+#newGame{
+    background-color:rgb(240, 226, 147);
+    margin: 2px;
+    font-weight: bold;
+    padding: 2px;
+}
+#newGame:hover{
+    background-color: rgba(203, 185, 226, 0.822);
+}
+#quit{
+    background-color:rgb(240, 226, 147);
+    margin: 2px;
+    font-weight: bold;
+    padding: 2px;
+}
+#quit:hover{
+    background-color: rgba(203, 185, 226, 0.822);
 }
 
 
