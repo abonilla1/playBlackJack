@@ -4,9 +4,10 @@ const ranks = ['r02', 'r03', 'r04', 'r05', 'r06', 'r07', 'r08', 'r09', 'r10', 'J
 const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10 , 10, 10, 11]; 
 //values and ranks are parallel arrays 
 
+
 class card {
     constructor(suit, rank, value) {
-        this.name = `card.${suit}.${rank}`;
+        this.name = `${suit} ${rank}`
         this.value = value;
         this.suit = suit; 
         this.rank = rank;
@@ -221,18 +222,39 @@ function renderStatus() {
 function renderCards(playerHand, dealerHand){
     playerHand.forEach((element) => {
         let newCard = document.createElement('div')
-        newCard.innerHTML = `${element.name}`
-        newCard.className= element.name;
-        playerField.appendChild(newCard);
-        
+        let className1 =  `card large ${element.name}`;
+        newCard.className = className1;
+        playerField.appendChild(newCard); 
     })
     dealerHand.forEach((element) => {
         let newCard2 = document.createElement('div');
-        newCard2.innerHTML = `${element.name}`;
-        newCard2.className = element.name;
+        let className2 = `card large ${element.name}`;
+        newCard2.className = className2
         dealerField.appendChild(newCard2)
     })  
 }
+/*   playArea.innerHTML = '';
+    cardsInPlay.forEach(function(card) {
+        0 denotes a card face down
+        if (card[0]) {
+            let appendCard = document.createElement("div");
+            appendCard.className = "card large back-red";
+            playArea.appendChild(appendCard);
+         1 denotes a card being guessed    
+        } else if (card[1]) {
+            let appendCard = document.createElement("div");
+            appendCard.className = `card large ${card[1]}`;
+            playArea.appendChild(appendCard);
+        2 denotes a card guessed correctly    
+        } else if (card[2]) {
+            let appendCard = document.createElement("div");
+            appendCard.className = `card large ${card[2]}`;
+            playArea.appendChild(appendCard);
+        }
+    */    
+
+
+
 
 function renderhit(playerHand) {
     let newCard3 = document.createElement('div');
