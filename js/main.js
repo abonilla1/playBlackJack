@@ -16,7 +16,7 @@ class card {
     
 const table = {
     bet: 0,
-    wallet: 1000,
+    wallet: 100,
 }
 
 const player = {
@@ -53,8 +53,7 @@ const pushBtn = document.getElementById('push');
 const foldBtn = document.getElementById('fold');
 const dealBtn = document.getElementById('deal');
 const quitBtn = document.getElementById('quit');
-const bet = document.getElementById('bet')
-//const actionDiv = document.getElementById('action');
+const bet = document.getElementById('bet');
 
 /*---------------------------------- event listeners ---------------------------------*/
 
@@ -111,7 +110,8 @@ dealBtn.addEventListener('click', () => {
 })
 
 nextBtn.addEventListener('click', () => {
-    currentBet.innerHTML = '0';
+    currentBet.style.display = '0';
+    table.bet = 0;
     renderStatus();
     gameDeck = shuffle(fold(playerHand, dealerHand, gameDeck));
     deal(gameDeck);
@@ -132,7 +132,8 @@ bet.addEventListener('keyup', (e) => {
     }
 });
 
-/*--------------------------------------- functions -------------------------------------------*/
+/*--------------------------------------- FUNCTIONS -------------------------------------------*/
+/*------------------------------------Creation Functions---------------------------------------*/
 
 function createDeck() {
     deck = [];
@@ -156,17 +157,37 @@ function shuffle(deck) {       //will shuffle using Fisher-Yates method
     return deck;
 } 
 
-function play() {    
-    let newDeck = createDeck();
-    gameDeck = shuffle(newDeck);
-    return gameDeck;
+/*------------------------------------Calculation Functions---------------------------------*/
+
+function calcPayout() { 
+    if (player.blackjack) {
+        table.wallet += (table.bet * 1.5);
+    }
+    else {
+        table.wallet += table.bet;
+    }
 }
 
-function getbet(){
-    table.bet = Number(bet.value);
-    table.wallet -= table.bet;
+function calcPoints(hand) {
+    let points = 0;
+    hand.forEach(function (element) {
+        points += parseInt(element.value);
+        if (hand.includes(hand.rank === 'A' && points > 21)) {
+            hand['A'].value = 1;
+        }
+     })    
+    return points;
 }
 
+function checkBlackJack(playerHand) {
+    playerPoints = calcPoints(playerHand);
+    if (playerPoints===21) {
+        player.blackjack = true;
+        renderStatus();
+    }  
+}
+
+/*-------------------------------------Rendering Functions-----------------------------------*/
 
 function renderStatus() {
     (table.bet == 0) ? messageOutput.innerHTML = 'Place your Bet' : messageOutput.innerHTML = 'Select Next Action';
@@ -195,16 +216,55 @@ function renderStatus() {
         wallet.innerHTML = `${table.wallet} + ${table.bet}`;
         currentBet.innerHTML = `0`;
     }
-
 }
 
-function calcPayout() { 
-    if (player.blackjack) {
-        table.wallet += (table.bet * 1.5);
-    }
-    else {
-        table.wallet += table.bet;
-    }
+function renderCards(playerHand, dealerHand){
+    playerHand.forEach((element) => {
+        let newCard = document.createElement('div')
+        newCard.innerHTML = `${element.name}`
+        newCard.className= element.name;
+        playerField.appendChild(newCard);
+        
+    })
+    dealerHand.forEach((element) => {
+        let newCard2 = document.createElement('div');
+        newCard2.innerHTML = `${element.name}`;
+        newCard2.className = element.name;
+        dealerField.appendChild(newCard2)
+    })  
+}
+
+function renderhit(playerHand) {
+    let newCard3 = document.createElement('div');
+    let nextCardName = playerHand.slice(2);
+    newCard3.innerHTML = nextCardName;
+    newCard3.className = nextCardName.name;
+    playerField.appendChild(newCard3);
+}
+
+function renderDHit(dealerHand) {
+    let newCard4 = document.createElement('div'.card);
+    let nextCardName = dealerHand.slice(2);
+    newCard4.innerHTML = nextCardName;
+    newCard4.className = nextCardName.name;
+    dealerField.appendChild(newCard4);
+}
+
+// function renderEndHand(){
+
+// }
+
+/*----------------------------------------Action Functions-------------------------------------------*/
+
+function play() {    
+    let newDeck = createDeck();
+    gameDeck = shuffle(newDeck);
+    return gameDeck;
+}
+
+function getbet(){
+    table.bet = Number(bet.value);
+    table.wallet -= table.bet;
 }
 
 function deal(gameDeck) {
@@ -224,62 +284,6 @@ function fold(playerHand, dealerHand, gameDeck){
     return gameDeck;
 }
 
-function renderCards(playerHand, dealerHand){
-    playerHand.forEach((element) => {
-        let newCard = document.createElement('div')
-        newCard.innerHTML = `${element.name}`
-        newCard.className= element.name;
-        playerField.appendChild(newCard);
-        
-    })
-    dealerHand.forEach((element) => {
-        let newCard2 = document.createElement('div');
-        newCard2.innerHTML = `${element.name}`;
-        newCard2.className = element.name;
-        dealerField.appendChild(newCard2)
-    })
-    
-}
-
-function renderhit(playerHand) {
-    let newCard = document.createElement('div'.card);
-    let nextCardName = playerHand.slice(2);
-    let cardDown = document.createElement('div');
-    newCard.innerHTML = nextCardName;
-    cardDown.classList.add(nextCardName.name);
-    cardDown.appendChild(newCard);
-    playerField.appendChild(cardDown);
-}
-
-function renderDHit(dealerHand) {
-    let newCard = document.createElement('div'.card);
-    let nextCardName = dealerHand.slice(2);
-    let cardUp = document.createElement('div');
-    newCard.innerHTML = nextCardName;
-    cardUp.classList.add(nextCardName.name);
-    cardUp.appendChild(newCard);
-    dealerField.appendChild(cardUp);
-}
-
-function calcPoints(hand) {
-    let points = 0;
-    hand.forEach(function (element) {
-        points += parseInt(element.value);
-        if (hand.includes(hand.rank === 'A' && points > 21)) {
-            hand['A'].value = 1;
-        }
-     })    
-    return points;
-}
-
-function checkBlackJack(playerHand) {
-    playerPoints = calcPoints(playerHand);
-    if (playerPoints===21) {
-        player.blackjack = true;
-        renderStatus();
-    }  
-}
-
 function doubleDown() {
     table.bet = table.bet * 2;
     table.wallet = table.wallet - table.bet;
@@ -293,7 +297,7 @@ function dealersTurn(dealerHand) {
         dealerHand.concat(gameDeck.splice(0,1));
         renderDHit(dealerHand);
         dealerPoints = calcPoints(dealerHand);
-    }
+    }    
     if (dealerPoints > 21); {
         player.isWinner = true;
         dealer.bust = true;
@@ -316,7 +320,7 @@ function dealersTurn(dealerHand) {
     if (dealerPoints > playerPoints){
         dealer.isWinner = true;
     }
-    renderStatus();
+    renderStatus(); 
 }
 
 gameDeck = play();
