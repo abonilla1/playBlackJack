@@ -114,7 +114,6 @@ startBtn.addEventListener('click', () => {
 nextBtn.addEventListener('click', () => {
     currentBet.style.display = 0;
     table.bet = 0;
-    renderStatus();
     gameDeck = shuffle(fold(playerHand, dealerHand, gameDeck));
     deal(gameDeck);
     renderCards(playerHand, dealerHand);
@@ -186,6 +185,7 @@ function checkBlackJack(playerHand) {
     playerPoints = calcPoints(playerHand);
     if (playerPoints === 21) {
         player.blackjack = true;
+        renderWallet();
         renderEndRound();
     }  
 }
@@ -261,8 +261,6 @@ function renderEndRound(){
     if(player.bust) {
         messageOutput.innerHTML = 'BUST!!!';
         bet.innerText='0';
-        playerField.innerHTML='';
-        dealerField.innerHTML=''; 
     }
     if(dealer.isWinner) {
         messageOutput.innerHTML = 'You LOST!!';
