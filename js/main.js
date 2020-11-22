@@ -109,6 +109,7 @@ dealBtn.addEventListener('click', () => {
 })
 
 nextBtn.addEventListener('click', () => {
+    confetti.stop();
     playerHand = [];
     dealerHand = [];
     playerField.innerHTML = '';
@@ -163,15 +164,15 @@ function shuffle(deck) {       //will shuffle using Fisher-Yates method
 
 function calcPayout() { 
     if (player.blackjack) {
-        table.wallet += (table.bet * 1.5 + table.bet);
+        table.wallet += (table.bet * 3 / 2);
         renderWallet();
     }
     else if (player.isWinner && dealer.bust) {
-        table.wallet += (table.bet * 1.5 + table.bet);
+        table.wallet += (table.bet * 3 / 2);
         renderWallet();
     }
     else if (player.isWinner) {
-        table.wallet += (table.bet + table.bet);
+        table.wallet += (table.bet*2);
         renderWallet();
     }
     else if (player.tie) {
@@ -285,6 +286,7 @@ function renderEndRound(){
     if(player.blackjack){
         calcPayout();
         messageOutput.innerHTML = 'BlackJack!!';
+        confetti.start(5000);
         bet.value= 0;
         bet.innerHTML=0;
     }
@@ -317,6 +319,7 @@ function renderEndRound(){
 function renderEndGame() {
     if (Number(table.wallet) === 0) {
         messageOutput.innerHTML = 'No more Money! Come back again'
+        dealBtn.setAttribute('disabled', 'disabled');
     }
 }
 
