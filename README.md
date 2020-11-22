@@ -49,5 +49,15 @@ The initial game design was intended to look like a casino table but proved diff
 ## This is the second WireFrame mock up for game design
 ![playBlackJack- Window](https://user-images.githubusercontent.com/73343168/99894690-e751d000-2c4b-11eb-863e-a9f87cdf2948.png)
 
+This layout allowed for cleaner design and easier and broader implementation of user actions. 
+The majority of content was created using Javascript technologies with heavy use of EventListeners and Functions. Game logic was primarily rendered using multiple helper functions to handle updating point and cash amounts as well as the all important comparisions for winning and losing. 
 
-The game was originally intended to include functionality for splitting a hand and insurance betting. These will instead be added in future upgrades.
+
+### Future upgrades/IceBox
+
+The game was originally intended to include functionality for splitting a hand and insurance betting. These will instead be added in future upgrades. Also expect an increase in conditional rendering for ease of game play. 
+[x] Build BlackJack
+[] Add conditional rendering upgrades
+[] Add Insurance betting
+[] Add ability to split a hand
+[] Add ability to split multiple hands
