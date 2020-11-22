@@ -163,19 +163,19 @@ function shuffle(deck) {       //will shuffle using Fisher-Yates method
 
 function calcPayout() { 
     if (player.blackjack) {
-        table.wallet += (Number(currentBet.value) * 1.5 + Number(currentBet.value));
+        table.wallet += (table.bet * 1.5 + table.bet);
         renderWallet();
     }
     else if (player.isWinner && dealer.bust) {
-        table.wallet += (Number(currentBet.value) * 1.5 + Number(currentBet.value));
+        table.wallet += (table.bet * 1.5 + table.bet);
         renderWallet();
     }
     else if (player.isWinner) {
-        table.wallet += (Number(currentBet.value) + Number(currentBet.value));
+        table.wallet += (table.bet + table.bet);
         renderWallet();
     }
     else if (player.tie) {
-        table.wallet += Number(currentBet.value)
+        table.wallet += table.bet
         renderWallet();
     }
     else {
@@ -298,11 +298,13 @@ function renderEndRound(){
         messageOutput.innerHTML = 'BUST!!!';
         bet.value= 0;
         bet.innerHTML=0;
+        calcPayout();
     }
     if(dealer.isWinner) {
         messageOutput.innerHTML = 'You LOST!!';
         bet.value= 0;
         bet.innerHTML=0;
+        calcPayout();
     }
     if (player.tie) {
         calcPayout();
@@ -383,7 +385,8 @@ function checkForDealerWin(dealerPoints, playerPoints){
 }       
 
 function dealersTurn(dealerHand, playerHand, gameDeck) {
-    renderDHit(dealerHand);
+    dealerField.lastElementChild.remove();
+    renderDHit(dealerHand)
     dealerPoints = parseInt(calcPoints(dealerHand));
     playerPoints = parseInt(calcPoints(playerHand));
     while (dealerPoints < 17) {
