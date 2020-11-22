@@ -47,6 +47,7 @@ Should be able to track my wins/losses
 The initial game design was intended to look like a casino table but proved difficult to implement. Moreover, It decreased overall functionality by having strict bet amounts and less cohesion of user actions.
 
 ## This is the second WireFrame mock up for game design
-![playBlackJack- Window](blob:https://whimsical.com/0944f34e-3901-be4c-8d71-f3cd2c6d98a6)
+![playBlackJack- Window](https://user-images.githubusercontent.com/73343168/99894690-e751d000-2c4b-11eb-863e-a9f87cdf2948.png)
+
 
 The game was originally intended to include functionality for splitting a hand and insurance betting. These will instead be added in future upgrades.
