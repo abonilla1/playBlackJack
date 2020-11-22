@@ -87,6 +87,9 @@ foldBtn.addEventListener('click', () => {
     messageOutput.innerHTML = 'Click Next Hand to Try Again';
     playerField.innerHTML = '';
     dealerField.innerHTML= '';
+    dealBtn.disabled = true;
+    hitBtn.disabled = true;
+    doubleBtn.disabled = true;
 })
 
 dealBtn.addEventListener('click', () => {
@@ -372,6 +375,11 @@ function doubleDown() {
     table.wallet = table.wallet - table.bet;
     table.bet += table.bet;
     renderWallet();
+    playerHand = playerHand.concat(gameDeck.splice(0,1));
+    renderhit(playerHand);
+    playerPoints = calcPoints(playerHand)
+    checkBust(playerPoints, player)
+    hitBtn.disabled = true;
 }
 
 function checkForDealerWin(dealerPoints, playerPoints){
