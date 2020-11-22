@@ -80,17 +80,16 @@ hitBtn.addEventListener('click', () => {
     console.log('going for broke');
     playerHand = playerHand.concat(gameDeck.splice(0,1));
     renderhit(playerHand);
-    checkBlackJack(playerHand)
     playerPoints = calcPoints(playerHand)
-    if (playerPoints > 21) {
-        player.bust = true;
-        renderEndRound(); 
-    }
+    checkBust(playerPoints, player)
+    checkBlackJack(playerHand)  
 })
+
 pushBtn.addEventListener('click', () => {
     console.log('good luck');
     playerField.innerHTML='';
     dealerField.innerHTML='';
+    player.tie= false;
     messageOutput.innerText = `Select Deal for new cards`
 })    
 
@@ -106,14 +105,19 @@ dealBtn.addEventListener('click', () => {
     deal(gameDeck);
     renderCards(playerHand, dealerHand);
     checkBlackJack(playerHand); 
+    doubleBtn.disabled = false;
 })
 
 nextBtn.addEventListener('click', () => {
     confetti.stop();
     playerHand = [];
     dealerHand = [];
+    player.bust = false;
+    player.blackjack = null;
+    dealer.bust = false;
     playerField.innerHTML = '';
     dealerField.innerHTML= '';
+    currentBet.innerHTML = '0';
     table.bet = '';
     gameDeck = play();
     renderTable();   
@@ -129,6 +133,8 @@ bet.addEventListener('keyup', (e) => {
     if (e.keyCode == 13) {
        getBet(); 
        renderTable();
+       bet.value= 0;
+       bet.innerHTML='';
     }    
 });
 
@@ -214,6 +220,12 @@ function checkBlackJack(playerHand) {
         renderEndRound();
     }  
 }
+function checkBust(points, x) {
+    if (points > 21) {
+        x.bust = true;
+    }
+    renderEndRound();
+}
 
 /*-------------------------------------Rendering Functions-----------------------------------*/
 
@@ -221,12 +233,16 @@ function renderTable() {
     if (table.bet === 0 || table.bet === ''){
         messageOutput.innerText = 'Place your Bet'
         dealBtn.disabled = true;
+        hitBtn.disabled = true;
+        doubleBtn.disabled = true;
     } 
     else if (table.bet <10 || table.bet > 75){
         messageOutput.innerText = 'Table Minimum of 10 and Maximum of 75';
+        dealBtn.disabled = true;
     }    
     else {
         dealBtn.disabled = false;
+        hitBtn.disabled = false;
         messageOutput.innerText = `Select next action`
         updateWallet();
         renderWallet();
@@ -236,6 +252,9 @@ function renderTable() {
 function updateWallet(){
     table.bet = Number(bet.value);
     table.wallet -= table.bet;
+    if (table.wallet == 0 || table.wallet < 0){
+        renderEndGame();
+    }    
 }
 
 function renderWallet() {
@@ -283,32 +302,38 @@ function renderDHit(dealerHand) {
 function renderEndRound(){
     if(player.blackjack){
         calcPayout();
-        messageOutput.innerHTML = 'BlackJack!!';
+        messageOutput.innerHTML = 'BlackJack!! Click Next Hand to Continue';
         confetti.start(5000);
-        bet.value= 0;
-        bet.innerHTML=0;
+        dealBtn.disabled = true;
+        hitBtn.disabled = true;
     }
-    if(player.isWinner) {
+    else if(player.isWinner) {
         calcPayout();
-        messageOutput.innerHTML = 'You Won!!';
-        bet.value= 0;
-        bet.innerHTML=0;
+        messageOutput.innerHTML = 'You Won!! Click Next Hand to Continue';
+        dealBtn.disabled = true;
+        hitBtn.disabled = true;
     } 
-    if(player.bust) {
-        messageOutput.innerHTML = 'BUST!!!';
-        bet.value= 0;
-        bet.innerHTML=0;
+    else if(dealer.bust) {
         calcPayout();
+        messageOutput.innerHTML = 'You Won!!! Click Next Hand to Continue';
+        dealBtn.disabled = true;
+        hitBtn.disabled = true;
+    } 
+    else if(player.bust) {
+        messageOutput.innerHTML = 'BUST!!!';
+        calcPayout();
+        dealBtn.disabled = true;
+        hitBtn.disabled = true;
     }
-    if(dealer.isWinner) {
+    else if(dealer.isWinner) {
         messageOutput.innerHTML = 'You LOST!!';
-        bet.value= 0;
-        bet.innerHTML=0;
+        dealBtn.disabled = true;
+        hitBtn.disabled = true;
     }
-    if (player.tie) {
+    else if (player.tie) {
         messageOutput.innerHTML = 'Tie hand, click Push button to deal again';
-        bet.value= 0;
-        bet.innerHTML=0;
+        dealBtn.disabled = true;
+        hitBtn.disabled = true;
     }
 }
 
@@ -318,7 +343,6 @@ function renderEndGame() {
         dealBtn.setAttribute('disabled', 'disabled');
     }
 }
-
 
 /*----------------------------------------Action Functions-------------------------------------------*/
 
@@ -332,7 +356,6 @@ function getBet() {
    table.bet = Number(bet.value);
 }
 
-
 function deal(gameDeck) {
     playerHand = gameDeck.splice(0,2);
     dealerHand = gameDeck.splice(0,2);
@@ -341,46 +364,18 @@ function deal(gameDeck) {
 function doubleDown() {
     table.bet = table.bet * 2;
     table.wallet = table.wallet - table.bet;
+    renderWallet();
 }
 
-function checkForDealerWin(dealerPoints, playerPoints){
-    if (dealerPoints > 21) {
-        player.isWinner = true;
-        dealer.bust = true;
-        renderEndRound(); 
-    }
-    else if (dealerPoints > playerPoints && dealerPoints >=17){
-        dealer.isWinner = true;
-        renderEndRound();
-    }
-    else if (dealerPoints === 21 && dealerPoints > playerPoints) {
-        dealer.isWinner = true;
-        renderEndRound(); 
-    }
-    else if (dealerPoints === 20 && dealerPoints > playerPoints) {
-        dealer.isWinner = true;
-        renderEndRound(); 
-    }       
-    else if (dealerPoints === 19 && dealerPoints > playerPoints){
-        dealer.isWinner = true;
-        renderEndRound(); 
-    }    
-    else if (dealerPoints === 18 && dealerPoints > playerPoints){
-        dealer.isWinner = true;
-        renderEndRound(); 
-    }    
-    else if (dealerPoints === 17 && dealerPoints > playerPoints){
-        dealer.isWinner = true;
-        renderEndRound(); 
-    }
-    else if (dealerPoints === 17 && dealerPoints === playerPoints){
-        player.tie = true;
-        renderEndRound();
-    } 
-    else if (dealerPoints === playerPoints){
+function checkForDealerWin(dealerPoints, playerPoints, dealer){
+    if (dealerPoints == playerPoints){
         player.tie = true;
         renderEndRound();
     }   
+    else if (dealerPoints > playerPoints){
+        dealer.isWinner = true;
+        renderEndRound();
+    }
     else {
         player.isWinner = true;
         renderEndRound(); 
@@ -398,6 +393,7 @@ function dealersTurn(dealerHand, playerHand, gameDeck) {
         renderDHit(dealerHand);
         dealerPoints = calcPoints(dealerHand); 
     }
+    checkBust(dealerPoints, dealer)
     checkForDealerWin(dealerPoints, playerPoints);       
 }
 
