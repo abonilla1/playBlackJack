@@ -93,13 +93,13 @@ header{
     text-align: center;
     font-weight: bold;
 }
-#start{
+#deal{
     background-color:rgb(240, 226, 147);
     margin: 2px;
     font-weight: bold;
     padding: 2px;
 }
-#start:hover{
+#deal:hover{
     background-color: rgba(203, 185, 226, 0.822);
 
 }

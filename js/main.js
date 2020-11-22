@@ -16,7 +16,7 @@ class card {
 /* At some point I want to create a deck constructor for cleaner syntax however will address that after getting basic syntax down */   
     
 const table = {
-    bet: 0,
+    bet: '',
     wallet: 100,
 }
 
@@ -52,7 +52,7 @@ const standBtn = document.getElementById('stand');
 const hitBtn = document.getElementById('hit');
 const pushBtn = document.getElementById('push');
 const foldBtn = document.getElementById('fold');
-const startBtn = document.getElementById('start');
+const dealBtn = document.getElementById('deal');
 const quitBtn = document.getElementById('quit');
 const bet = document.getElementById('bet');
 
@@ -61,15 +61,14 @@ const bet = document.getElementById('bet');
 newGameBtn.addEventListener('click', () =>{
     console.log('party');
     location.reload() 
-    bet.innerText=''; 
+    bet.value = 0; 
 })
 
 doubleBtn.addEventListener('click', () => {
     console.log('extra party');
     doubleDown();
     dealersTurn(dealerHand, playerHand, gameDeck);
-    renderStatus();
-    
+    renderTable(); 
 })   
        
 standBtn.addEventListener('click', () => {     
@@ -92,19 +91,21 @@ pushBtn.addEventListener('click', () => {
     console.log('good luck');
     gameDeck = shuffle(fold(playerHand, dealerHand, gameDeck));
     table.bet = 0;
-    bet.style.display='0';
-    deal(gameDeck);
+    bet.innerText='';
+    playerField='';
+    dealerField='';
+    renderTable();
 })    
 
 foldBtn.addEventListener('click', () => {
     console.log('-$$$$$');
-    table.bet = 0;
+    bet.innerText='';
     bet.style.display='';
     renderStatus();
     messageOutput.innerHTML = 'Click Next Hand to Try Again';
 })
 
-startBtn.addEventListener('click', () => {
+dealBtn.addEventListener('click', () => {
     console.log('feelin lucky?');
     deal(gameDeck);
     renderCards(playerHand, dealerHand);
@@ -112,12 +113,10 @@ startBtn.addEventListener('click', () => {
 })
 
 nextBtn.addEventListener('click', () => {
-    currentBet.style.display = 0;
-    table.bet = 0;
     gameDeck = shuffle(fold(playerHand, dealerHand, gameDeck));
-    deal(gameDeck);
-    renderCards(playerHand, dealerHand);
-    checkBlackJack(playerHand);
+    currentBet.innerHTML = '0';
+    bet.innerText='';
+    renderTable();   
 })
 
 quitBtn.addEventListener('click', () => {
@@ -164,9 +163,11 @@ function shuffle(deck) {       //will shuffle using Fisher-Yates method
 function calcPayout() { 
     if (player.blackjack) {
         table.wallet += (table.bet * 1.5);
+        renderWallet();
     }
     else {
-        table.wallet += table.bet;
+        table.wallet += Number(currentBet.value);
+        renderWallet();
     }
 }
 
@@ -193,24 +194,27 @@ function checkBlackJack(playerHand) {
 /*-------------------------------------Rendering Functions-----------------------------------*/
 
 function renderTable() {
-    if (table.bet == 0) {
-        messageOutput.innerHTML = `Place your Bet`;
+    if (table.bet == 0 || table.bet == '') {
+        messageOutput.innerText = 'Place your Bet'
     }     
     else if (table.bet < 10 || table.bet >75) {
-        messageOutput.innerHTML = `Minimum bet of $10 and Maximum of $75!`
+        messageOutput.innerText = `Minimum bet of $10 and Maximum of $75!`
     }
     else {
         messageOutput.innerText = `Select next action`
+        updateWallet();
         renderWallet();
     }    
 }
 
-function renderWallet() {
+function updateWallet(){
     table.bet = Number(bet.value);
     table.wallet -= table.bet;
+}
+
+function renderWallet() {
     wallet.innerHTML = `${table.wallet}`;
     currentBet.innerHTML = `${table.bet}`;
-
 }
 
 function renderCards(playerHand, dealerHand){
@@ -249,18 +253,16 @@ function renderDHit(dealerHand) {
 function renderEndRound(){
     if(player.blackjack){
         calcPayout();
-        renderWallet();
         messageOutput.innerHTML = 'BlackJack!!';
         bet.innerText=''; 
     }
     if(player.isWinner) {
         calcPayout();
-        renderWallet();
         messageOutput.innerHTML = 'You Won!!';
     } 
     if(player.bust) {
         messageOutput.innerHTML = 'BUST!!!';
-        bet.innerText='0';
+        bet.innerText='';
     }
     if(dealer.isWinner) {
         messageOutput.innerHTML = 'You LOST!!';
