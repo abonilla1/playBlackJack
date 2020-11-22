@@ -67,11 +67,13 @@ doubleBtn.addEventListener('click', () => {
     console.log('extra party');
     doubleDown();
     dealersTurn(dealerHand, playerHand, gameDeck);
+    checkForDealerWin(dealerPoints, playerPoints);      
 })   
        
 standBtn.addEventListener('click', () => {     
     console.log('nerves of steel');
     dealersTurn(dealerHand, playerHand, gameDeck);
+    checkForDealerWin(dealerPoints, playerPoints);      
 })
 
 hitBtn.addEventListener('click', () => {
@@ -80,7 +82,7 @@ hitBtn.addEventListener('click', () => {
     playerHand = playerHand.concat(gameDeck.splice(0,1));
     renderhit(playerHand);
     playerPoints = calcPoints(playerHand)
-    checkBust(playerPoints, player)
+    checkBust();
 })
 
 foldBtn.addEventListener('click', () => {
@@ -103,6 +105,9 @@ dealBtn.addEventListener('click', () => {
 })
 
 nextBtn.addEventListener('click', () => {
+    if (table.wallet == 0 || table.wallet < 0){
+        renderEndGame();
+    }    
     confetti.stop();
     playerHand = [];
     dealerHand = [];
@@ -216,13 +221,17 @@ function checkBlackJack(playerHand) {
         renderEndRound();
     }  
 }
-function checkBust(points, x) {
-    if (points > 21) {
-        x.bust = true;
+function checkBust() {
+    if (playerPoints > 21) {
+        player.bust = true;
+        renderEndRound();
+    }
+    else if (dealerPoints > 21){
+        dealer.bust = true;
         renderEndRound();
     }
     else {
-        console.log('no bust');
+        console.log('No Bust!')
     }
 }
 
@@ -250,9 +259,6 @@ function renderTable() {
 function updateWallet(){
     table.bet = Number(bet.value);
     table.wallet -= table.bet;
-    if (table.wallet == 0 || table.wallet < 0){
-        renderEndGame();
-    }    
 }
 
 function renderWallet() {
@@ -350,7 +356,8 @@ function handlePush(){
 function renderEndGame() {
     if (Number(table.wallet) === 0) {
         messageOutput.innerHTML = 'No more Money! Come back again'
-        dealBtn.setAttribute('disabled', 'disabled');
+        dealBtn.disabled = true;
+        nextBtn.disabled = true;
     }
 }
 
@@ -378,7 +385,7 @@ function doubleDown() {
     playerHand = playerHand.concat(gameDeck.splice(0,1));
     renderhit(playerHand);
     playerPoints = calcPoints(playerHand)
-    checkBust(playerPoints, player)
+    checkBust(playerPoints)
     hitBtn.disabled = true;
 }
 
@@ -398,19 +405,19 @@ function checkForDealerWin(dealerPoints, playerPoints){
     } 
 }       
 
-function dealersTurn(dealerHand, playerHand, gameDeck) {
+function dealersTurn(dealerHand, gameDeck) {
     dealerField.lastElementChild.remove();
     renderDHit(dealerHand)
     dealerPoints = parseInt(calcPoints(dealerHand));
-    playerPoints = parseInt(calcPoints(playerHand));
+    // playerPoints = parseInt(calcPoints(playerHand));
     while (dealerPoints < 17) {
         dealerHand = dealerHand.concat(gameDeck.splice(0,1));
         console.log(dealerHand);
         renderDHit(dealerHand);
         dealerPoints = calcPoints(dealerHand); 
     }
-    checkBust(dealerPoints, dealer)
-    checkForDealerWin(dealerPoints, playerPoints);       
+    checkBust();
+    // checkForDealerWin(dealerPoints, playerPoints);       
 }
 
 gameDeck = play();
