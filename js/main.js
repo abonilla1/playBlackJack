@@ -89,24 +89,20 @@ hitBtn.addEventListener('click', () => {
 })
 pushBtn.addEventListener('click', () => {
     console.log('good luck');
-    gameDeck = shuffle(fold(playerHand, dealerHand, gameDeck));
-    table.bet = 0;
-    bet.innerText='';
-    playerField='';
-    dealerField='';
-    renderTable();
+    playerField.innerHTML='';
+    dealerField.innerHTML='';
+    messageOutput.innerText = `Select Deal for new cards`
 })    
 
 foldBtn.addEventListener('click', () => {
-    console.log('-$$$$$');
-    bet.innerText='';
-    bet.style.display='';
-    renderStatus();
     messageOutput.innerHTML = 'Click Next Hand to Try Again';
+    playerField.innerHTML = '';
+    dealerField.innerHTML= '';
 })
 
 dealBtn.addEventListener('click', () => {
     console.log('feelin lucky?');
+    gameDeck = play();
     deal(gameDeck);
     renderCards(playerHand, dealerHand);
     checkBlackJack(playerHand); 
@@ -115,9 +111,12 @@ dealBtn.addEventListener('click', () => {
 nextBtn.addEventListener('click', () => {
     playerHand = [];
     dealerHand = [];
+    playerField.innerHTML = '';
+    dealerField.innerHTML= '';
+    bet.value= 0;
+    bet.innerHTML=0;
     gameDeck = play();
     currentBet.innerHTML = '0';
-    bet.innerText='';
     renderTable();   
 })
 
@@ -164,14 +163,28 @@ function shuffle(deck) {       //will shuffle using Fisher-Yates method
 
 function calcPayout() { 
     if (player.blackjack) {
-        table.wallet += (table.bet * 1.5);
+        table.wallet += (Number(currentBet.value) * 1.5 + Number(currentBet.value));
+        renderWallet();
+    }
+    else if (player.isWinner && dealer.bust) {
+        table.wallet += (Number(currentBet.value) * 1.5 + Number(currentBet.value));
+        renderWallet();
+    }
+    else if (player.isWinner) {
+        table.wallet += (Number(currentBet.value) + Number(currentBet.value));
+        renderWallet();
+    }
+    else if (player.tie) {
+        table.wallet += Number(currentBet.value)
         renderWallet();
     }
     else {
-        table.wallet += Number(currentBet.value);
+        currentBet.innerHTML = '0';
+        table.bet=0;
         renderWallet();
     }
 }
+
 function checkForAce(hand) {
     hand.forEach((element)=> {
         if (element.rank === 'A'){
@@ -238,12 +251,15 @@ function renderCards(playerHand, dealerHand){
         newCard.className = className1;
         playerField.appendChild(newCard); 
     })
-    dealerHand.forEach((element) => {
-        let newCard2 = document.createElement('div');
-        let className2 = `card large ${element.name}`;
-        newCard2.className = className2
-        dealerField.appendChild(newCard2)
-    })  
+    let newCard2 = document.createElement('div');
+    let cardToRender2 = dealerHand[0];
+    let className2 = `card large ${cardToRender2.name}`
+    newCard2.className = className2
+    dealerField.appendChild(newCard2);
+    let newCard3 = document.createElement('div');
+    let className3 = `card large back-blue`;
+    newCard3.className = className3;
+    dealerField.appendChild(newCard3);
 }
 
 function renderhit(playerHand) {
@@ -261,6 +277,7 @@ function renderDHit(dealerHand) {
     let cardToRender2 = dealerHand[length2-1];
     let className4 = `card large ${cardToRender2.name}`
     newCard4.className = className4
+    console.log(newCard4)
     dealerField.appendChild(newCard4);
 }
 
@@ -288,6 +305,7 @@ function renderEndRound(){
         bet.innerHTML=0;
     }
     if (player.tie) {
+        calcPayout();
         messageOutput.innerHTML = 'Tie hand, click Push button to deal again';
         bet.value= 0;
         bet.innerHTML=0;
@@ -317,18 +335,6 @@ function getBet() {
 function deal(gameDeck) {
     playerHand = gameDeck.splice(0,2);
     dealerHand = gameDeck.splice(0,2);
-}
-
-function fold(playerHand, dealerHand, gameDeck){
-    playerHand.forEach((element) => {
-        gameDeck.push(element);
-    })
-    dealerHand.forEach((element) => {
-        gameDeck.push(element);
-    })
-    playerField.innerHTML = '';
-    dealerField.innerHTML= '';
-    return gameDeck;
 }
 
 function doubleDown() {
@@ -377,7 +383,7 @@ function checkForDealerWin(dealerPoints, playerPoints){
 }       
 
 function dealersTurn(dealerHand, playerHand, gameDeck) {
-    //render 2nd card face up at this time
+    renderDHit(dealerHand);
     dealerPoints = parseInt(calcPoints(dealerHand));
     playerPoints = parseInt(calcPoints(playerHand));
     while (dealerPoints < 17) {
