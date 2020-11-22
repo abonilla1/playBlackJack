@@ -111,6 +111,7 @@ nextBtn.addEventListener('click', () => {
     playerField.innerHTML = '';
     dealerField.innerHTML= '';
     currentBet.innerHTML = '0';
+    table.bet = '';
     gameDeck = play();
     renderTable();   
 })
@@ -301,6 +302,13 @@ function renderEndRound(){
         dealBtn.disabled = true;
         hitBtn.disabled = true;
     }
+    else if((player.isWinner) && (playerHand.length === 5)) {
+        calcPayout();
+        messageOutput.innerHTML = '!!!5 Card Charlie!!! Click Next Hand to Continue';
+        dealBtn.disabled = true;
+        hitBtn.disabled = true;
+        confetti.start(5000);
+    } 
     else if(player.isWinner) {
         calcPayout();
         messageOutput.innerHTML = 'You Won!! Click Next Hand to Continue';
