@@ -61,7 +61,7 @@ const bet = document.getElementById('bet');
 newGameBtn.addEventListener('click', () =>{
     console.log('party');
     location.reload() 
-    bet.value = 0; 
+    table.bet ='';
 })
 
 doubleBtn.addEventListener('click', () => {
@@ -114,10 +114,8 @@ nextBtn.addEventListener('click', () => {
     dealerHand = [];
     playerField.innerHTML = '';
     dealerField.innerHTML= '';
-    bet.value= 0;
-    bet.innerHTML=0;
+    table.bet = '';
     gameDeck = play();
-    currentBet.innerHTML = '0';
     renderTable();   
 })
 
@@ -180,9 +178,7 @@ function calcPayout() {
         renderWallet();
     }
     else {
-        currentBet.innerHTML = '0';
-        table.bet=0;
-        renderWallet();
+        table.bet='';
     }
 }
 
@@ -222,13 +218,15 @@ function checkBlackJack(playerHand) {
 /*-------------------------------------Rendering Functions-----------------------------------*/
 
 function renderTable() {
-    if (table.bet == 0 || table.bet == '0'){
+    if (table.bet === 0 || table.bet === ''){
         messageOutput.innerText = 'Place your Bet'
-    }     
-    else if (table.bet < 10 || table.bet >75) {
-        messageOutput.innerText = `Minimum bet of $10 and Maximum of $75!`
-    }
+        dealBtn.disabled = true;
+    } 
+    else if (table.bet <10 || table.bet > 75){
+        messageOutput.innerText = 'Table Minimum of 10 and Maximum of 75';
+    }    
     else {
+        dealBtn.disabled = false;
         messageOutput.innerText = `Select next action`
         updateWallet();
         renderWallet();
@@ -306,10 +304,8 @@ function renderEndRound(){
         messageOutput.innerHTML = 'You LOST!!';
         bet.value= 0;
         bet.innerHTML=0;
-        calcPayout();
     }
     if (player.tie) {
-        calcPayout();
         messageOutput.innerHTML = 'Tie hand, click Push button to deal again';
         bet.value= 0;
         bet.innerHTML=0;
@@ -380,7 +376,11 @@ function checkForDealerWin(dealerPoints, playerPoints){
     else if (dealerPoints === 17 && dealerPoints === playerPoints){
         player.tie = true;
         renderEndRound();
-    }    
+    } 
+    else if (dealerPoints === playerPoints){
+        player.tie = true;
+        renderEndRound();
+    }   
     else {
         player.isWinner = true;
         renderEndRound(); 
