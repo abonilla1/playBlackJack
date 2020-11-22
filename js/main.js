@@ -369,8 +369,8 @@ function deal(gameDeck) {
 }
 
 function doubleDown() {
-    table.bet = table.bet * 2;
     table.wallet = table.wallet - table.bet;
+    table.bet += table.bet;
     renderWallet();
 }
 
