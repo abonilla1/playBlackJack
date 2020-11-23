@@ -20,22 +20,12 @@ This project renders a working blackjack game in the browser using html5, CSS an
   * After the user stands, the dealer's turn will begin and their second card will be flipped.
     * The dealer follows strict casino rules, hitting until reaching at least 17 points or busting.
   * If neither user nor dealer busts, the points will be compared at the end of the hand and a winner declared
-<<<<<<< HEAD
   * Upon winning, User payouts are calculated thusly:
     * 3:2 for Natural BlackJack 
     * 3:2 if dealer busts
     * 1:1 all other wins
   * After the round is complete, Next Hand will carry over Cash values for another round whereas New Game will refresh the entire page and Quit will close the window. 
-=======
-    * Upon winning, User payouts are calculated thusly:
-    * 3:2 for Natural BlackJack 
-    * 3:2 if dealer busts
-    * 1:1 all other wins
-    * After the round is complete, Next Hand will carry over Cash values for another round whereas New Game will refresh the entire page and Quit will close the window. 
->>>>>>> 68c398d976dc7e39816afe9551637671e713663e
-    * If the player reaches 0 in Current Cash, the game is over
 
-## Planning 
 
 ### This is the initial WireFrame mock up for game design
 
