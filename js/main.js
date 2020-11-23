@@ -4,7 +4,6 @@ const ranks = ['r02', 'r03', 'r04', 'r05', 'r06', 'r07', 'r08', 'r09', 'r10', 'J
 const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10 , 10, 10, 11]; 
 //values and ranks are parallel arrays 
 
-
 class card {
     constructor(suit, rank, value) {
         this.name = `${suit} ${rank}`;
@@ -12,13 +11,13 @@ class card {
         this.suit = suit; 
         this.rank = rank;
     }
-} //creates card class
-/* At some point I want to create a deck constructor for cleaner syntax however will address that after getting basic syntax down */   
+} //creates card class, Ace is generated with a value of 11 
     
 const table = {
     bet: '',
     wallet: 100,
 }
+//table object for user interface related to betting and game updates
 
 const player = {
     isWinner: null,
@@ -27,14 +26,18 @@ const player = {
     bust: false,
 }
 
+// player object holding booleans that control state of the game
+
 const dealer = {
     isWinner: null,
     bust: false,
 }
+// dealer object also holding state of game variables. Different combinations of dealer and player booleans will trigger different win/loss scenarios
 
 /*-------------------------------------------------- app's state (variables) ------------------------*/
 let gameDeck, playerHand, dealerHand, playerPoints, dealerPoints, push
-
+//push was originally a button but the logic is very similar to starting a new hand so it is now
+//a Boolean 
 
 /*--------------------------------------- cached element references ---------------------------------*/
 
@@ -61,29 +64,35 @@ newGameBtn.addEventListener('click', () =>{
     console.log('party');
     location.reload() 
     table.bet ='';
-})
+})  
+//Resets the browser window and initial variables
 
 doubleBtn.addEventListener('click', () => {
     console.log('extra party');
     doubleDown();
     dealersTurn(dealerHand, playerHand, gameDeck);
     checkForDealerWin(dealerPoints, playerPoints);      
-})   
+})  
+//player doubles their bet, receives one additional card and then dealers turn begins 
        
 standBtn.addEventListener('click', () => {     
     console.log('nerves of steel');
     dealersTurn(dealerHand, playerHand, gameDeck);
     checkForDealerWin(dealerPoints, playerPoints);      
 })
+//player takes no more actions, dealers turn begins
 
 hitBtn.addEventListener('click', () => {
     console.log('going for broke');
     doubleBtn.disabled = true;
+    dealBtn.disabled = true;
     playerHand = playerHand.concat(gameDeck.splice(0,1));
     renderhit(playerHand);
     playerPoints = calcPoints(playerHand)
     checkBust();
 })
+// player receives one card, 'bust' state is checked for, double down disabled after first hit
+/* future upgrade: blackjack state checked for and win generated */
 
 foldBtn.addEventListener('click', () => {
     messageOutput.innerHTML = 'Click Next Hand to Try Again';
@@ -93,16 +102,19 @@ foldBtn.addEventListener('click', () => {
     hitBtn.disabled = true;
     doubleBtn.disabled = true;
 })
+// player takes no more actions, board is reset
 
 dealBtn.addEventListener('click', () => {
     console.log('feelin lucky?');
-    gameDeck = play();
+    gameDeck = play(); //generates a new deck and shuffles it
     deal(gameDeck);
     renderCards(playerHand, dealerHand);
     checkBlackJack(playerHand); 
     doubleBtn.disabled = false;
     hitBtn.disabled = false;
+    dealBtn.disabled = true;
 })
+//deal is only available at the start of the game, AFTER betting. Two card objects each to dealerHand and playerHand which become arrays of objects
 
 nextBtn.addEventListener('click', () => {
     if (table.wallet == 0 || table.wallet < 0){
@@ -123,12 +135,14 @@ nextBtn.addEventListener('click', () => {
     gameDeck = play();
     renderTable();   
 })
+//This button does the majority of the work for this game. It resets all the values, including state variables. It generates and shuffles a new card deck and calls the renderTable() function to prompt the user to bet and begin a new hand.
 
 quitBtn.addEventListener('click', () => {
     console.log('better luck next time');
     window.open('','_parent','');
 	window.close()
 })    
+//force closes window and ends the game. --Attribution!!!---This syntax obtained from StackOverflow!!---
 
 bet.addEventListener('keyup', (e) => {
     if (e.keyCode == 13) {
@@ -138,6 +152,7 @@ bet.addEventListener('keyup', (e) => {
        bet.innerHTML='';
     }    
 });
+//listens for user to enter a bet and submit it. Calls renderTable() to check for appropriate bet value, resets the inner values of the fields AFTER getting the bet
 
 
 /*--------------------------------------- FUNCTIONS -------------------------------------------*/
@@ -164,6 +179,7 @@ function shuffle(deck) {       //will shuffle using Fisher-Yates method
     }
     return deck;
 } 
+// ----ATTRIBUTION!!!----I DID NOT COME UP WITH FISHER-YATES SHUFFLE-- syntax obtained from frankmitchell.org 
 
 /*------------------------------------Calculation Functions---------------------------------*/
 
@@ -188,6 +204,7 @@ function calcPayout() {
         table.bet='';
     }
 }
+//This function uses object state properties to calculate the appropriate payout.
 
 function checkForAce(hand) {
     hand.forEach((element)=> {
@@ -197,6 +214,7 @@ function checkForAce(hand) {
     })
     return hand
 }
+// Helper function to handle Round Aces. Since it mutates the Ace Card object, an entirely new deck is created at the beginning of each next hand
 
 function calcPoints(hand) {
     let points = 0;
@@ -254,7 +272,7 @@ function renderTable() {
         updateWallet();
         renderWallet();
     }    
-}
+} //The render table function holds state of game information, prompts the user to bet and disables/enables buttons accordingly
 
 function updateWallet(){
     table.bet = Number(bet.value);
@@ -282,7 +300,7 @@ function renderCards(playerHand, dealerHand){
     let className3 = `card large back-blue`;
     newCard3.className = className3;
     dealerField.appendChild(newCard3);
-}
+} //dealer cards were originally handled with a for each loop but since the second of the dealer's cards needed to be handled separately this function 
 
 function renderhit(playerHand) {
     let newCard3 = document.createElement('div');
@@ -292,6 +310,7 @@ function renderhit(playerHand) {
     newCard3.className = className3;
     playerField.appendChild(newCard3);
 }
+//render dealerhit and player hit are separate functions from deal because we are handling one card at a time.
 
 function renderDHit(dealerHand) {
     let newCard4 = document.createElement('div');
@@ -368,6 +387,7 @@ function play() {
     gameDeck = shuffle(newDeck);
     return gameDeck;
 }
+//Generates, shuffles and returns a new game deck ready for play
 
 function getBet() {
    table.bet = Number(bet.value);
@@ -409,15 +429,13 @@ function dealersTurn(dealerHand, gameDeck) {
     dealerField.lastElementChild.remove();
     renderDHit(dealerHand)
     dealerPoints = parseInt(calcPoints(dealerHand));
-    // playerPoints = parseInt(calcPoints(playerHand));
     while (dealerPoints < 17) {
         dealerHand = dealerHand.concat(gameDeck.splice(0,1));
         console.log(dealerHand);
         renderDHit(dealerHand);
         dealerPoints = calcPoints(dealerHand); 
     }
-    checkBust();
-    // checkForDealerWin(dealerPoints, playerPoints);       
+    checkBust();      
 }
 
 gameDeck = play();

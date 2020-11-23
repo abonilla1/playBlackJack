@@ -2,14 +2,15 @@
 This project renders a working blackjack game in the browser using html5, CSS and Javascript technologies.
 
 ## Game Features:
-    * Game Logic similar to casino play.
-    * 52 Card Deck.
-    * Soft/Round Aces- Ace value is either 1 or 11 depending on the other cards in the hand.
-      * This logic also applies to the dealer.
-    * Rendering of status updates to the user for easy transitioning between actions.
+  * Game Logic similar to casino play.
+  * 52 Card Deck.
+  * Soft/Round Aces- Ace value is either 1 or 11 depending on the other cards in the hand.
+    * This logic also applies to the dealer.
+   
+  *Rendering of status updates to the user for easy transitioning between actions.
     * Button Controlled User Interface allowing for:    
-      * Multiple user actions per turn
-      * Ability to carry over funds from hand to hand
+  * Multiple user actions per turn
+    * Ability to carry over funds from hand to hand
 
 ## Rules:
     * The game will start on window load with an HTML message to place a bet in the input field.
@@ -56,8 +57,8 @@ The majority of content was created using Javascript technologies with heavy use
 ### Future upgrades/IceBox
 
 The game was originally intended to include functionality for splitting a hand and insurance betting. These will instead be added in future upgrades. Also expect an increase in conditional rendering for ease of game play. 
--[x] Build BlackJack
--[] Add conditional rendering upgrades
--[] Add Insurance betting
--[] Add ability to split a hand
--[] Add ability to split multiple hands
+-Add points tracker to player and dealer fields
+-Add conditional rendering upgrades
+-Add Insurance betting
+-Add ability to split a hand
+-Add ability to split multiple hands
