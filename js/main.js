@@ -121,16 +121,19 @@ dealBtn.addEventListener('click', () => {
     doubleBtn.disabled = false;
     hitBtn.disabled = false;
     dealBtn.disabled = true;
+    bet.disabled = true;
     
 })
 //deal is only available at the start of the game, AFTER betting. Two card objects each to dealerHand and playerHand which become arrays of objects
 
 nextBtn.addEventListener('click', () => {
-    if (table.wallet === 0){
+    if (parseInt(table.wallet) === 0){
+        doubleBtn.disabled = true;
         renderEndGame();
     }   
-    else if (table.wallet < 0 ){
+    else if (parseInt(table.wallet) < 0 ){
         console.log('Here come the loan sharks XO ')
+        doubleBtn.disabled = true;
         renderEndGame();
     }
     else {
@@ -143,6 +146,7 @@ nextBtn.addEventListener('click', () => {
         dealerField.innerHTML= '';
         currentBet.innerHTML = '0';
         table.bet = '';
+        bet.disabled = false;
         renderTable();
     }       
 })
@@ -286,8 +290,8 @@ function renderTable() {
         hitBtn.disabled = true;
         doubleBtn.disabled = true;
     } 
-    else if (table.bet <10 || table.bet > 75){
-        messageOutput.innerText = 'Table Minimum of 10 and Maximum of 75';
+    else if (table.bet <10 || table.bet > 100){
+        messageOutput.innerText = 'Table Minimum of 10 and Maximum of 100';
         dealBtn.disabled = true;
     }    
     else {
@@ -397,11 +401,9 @@ function handlePush(){
 }
 
 function renderEndGame() {
-    if (Number(table.wallet) === 0) {
-        messageOutput.innerHTML = 'No more Money! Come back again'
-        dealBtn.disabled = true;
-        nextBtn.disabled = true;
-    }
+    messageOutput.innerHTML = 'No more Money! Come back again';
+    dealBtn.disabled = true;
+    nextBtn.disabled = true;
 }
 
 /*----------------------------------------Action Functions-------------------------------------------*/
