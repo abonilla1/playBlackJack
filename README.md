@@ -57,7 +57,7 @@ http://insidious-airport.surge.sh/
 
 ### Planned upgrades
 
-The game was originally intended to include functionality for splitting a hand and insurance betting. These will instead be added in future upgrades. There will also be an increase in conditional rendering for greater ease of game play and more rendering features.
+The game was originally intended to include functionality for splitting a hand and insurance betting. These will instead be added in future upgrades. There will also be an increase in conditional rendering and more bonus features.
 
 * Add points tracker to player and dealer fields
 * Add music during game play
@@ -65,3 +65,5 @@ The game was originally intended to include functionality for splitting a hand a
 * Add Insurance betting
 * Add ability to split a hand
 * Add ability to split multiple hands
+
+Check back soon!
