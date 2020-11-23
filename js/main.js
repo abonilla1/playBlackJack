@@ -13,12 +13,6 @@ class Card {
     }
 } //creates card class, Ace is generated with a value of 11 
     
-const table = {
-    bet: '',
-    wallet: 100,
-}
-//table object for user interface related to betting and game updates
-
 class Player {
     constructor() {
     this.isWinner = null;
@@ -27,7 +21,6 @@ class Player {
     this.tie = null;
     }
 }
-
 // player prototype object holding booleans that control state of the game
 
 class Dealer {
@@ -38,13 +31,18 @@ class Dealer {
 }
 // dealer prototype object also holding state of game variables. Different combinations of dealer and player booleans will trigger different win/loss scenarios
 
+const table = {
+    bet: '',
+    wallet: 100,
+}
+//table object for user interface related to betting and game updates
+
 /*-------------------------------------------------- app's state (variables) ------------------------*/
 let gameDeck, playerHand, dealerHand, playerPoints, dealerPoints, push
 //push was originally a button but the logic is very similar to starting a new hand so it is now
 //a Boolean 
 
 /*--------------------------------------- cached element references ---------------------------------*/
-
 
 const messageOutput = document.getElementById('message');
 const wallet = document.getElementById('wallet');
