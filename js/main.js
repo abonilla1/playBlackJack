@@ -124,6 +124,9 @@ nextBtn.addEventListener('click', () => {
     playerHand = [];
     dealerHand = [];
     push = false;
+    player.isWinner = null;
+    player.bust = null;
+    dealer.isWinner = null;
     player.bust = false;
     player.blackjack = null;
     dealer.bust = false;
@@ -426,8 +429,8 @@ function checkForDealerWin(dealerPoints, playerPoints){
 }       
 
 function dealersTurn(dealerHand, gameDeck) {
-    dealerField.lastElementChild.remove();
-    renderDHit(dealerHand)
+    dealerField.lastElementChild.remove(); //removes the card back from dealer's deal
+    renderDHit(dealerHand) //re-renders the dealers second card
     dealerPoints = parseInt(calcPoints(dealerHand));
     while (dealerPoints < 17) {
         dealerHand = dealerHand.concat(gameDeck.splice(0,1));
