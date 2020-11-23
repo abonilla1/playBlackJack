@@ -52,6 +52,9 @@ The majority of content was created using Javascript technologies with heavy use
 ### ScreenShot of Final product
 ![playBlackJack-Window](https://user-images.githubusercontent.com/73343168/99925675-9f42b400-2d04-11eb-97e7-3e5c5051476c.png)
 
+### ScreenShot of Game Play
+![playBlackJack-gameplay](https://user-images.githubusercontent.com/73343168/99997621-07d07600-2d83-11eb-913d-05492cece0fb.png)
+
 ## Play!!
 http://insidious-airport.surge.sh/
 
