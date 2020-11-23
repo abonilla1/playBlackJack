@@ -4,7 +4,7 @@ const ranks = ['r02', 'r03', 'r04', 'r05', 'r06', 'r07', 'r08', 'r09', 'r10', 'J
 const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10 , 10, 10, 11]; 
 //values and ranks are parallel arrays 
 
-class card {
+class Card {
     constructor(suit, rank, value) {
         this.name = `${suit} ${rank}`;
         this.value = value;
@@ -19,20 +19,24 @@ const table = {
 }
 //table object for user interface related to betting and game updates
 
-const player = {
-    isWinner: null,
-    blackjack: null,
-    tie: false,
-    bust: false,
+class Player {
+    constructor() {
+    this.isWinner = null;
+    this.blackjack = null;
+    this.bust = null;
+    this.tie = null;
+    }
 }
 
-// player object holding booleans that control state of the game
+// player prototype object holding booleans that control state of the game
 
-const dealer = {
-    isWinner: null,
-    bust: false,
+class Dealer {
+    constructor() {
+    this.isWinner = null;
+    this.bust =null;
+    }
 }
-// dealer object also holding state of game variables. Different combinations of dealer and player booleans will trigger different win/loss scenarios
+// dealer prototype object also holding state of game variables. Different combinations of dealer and player booleans will trigger different win/loss scenarios
 
 /*-------------------------------------------------- app's state (variables) ------------------------*/
 let gameDeck, playerHand, dealerHand, playerPoints, dealerPoints, push
@@ -63,7 +67,7 @@ const bet = document.getElementById('bet');
 newGameBtn.addEventListener('click', () =>{
     console.log('party');
     location.reload() 
-    table.bet ='';
+    table.bet =''; 
 })  
 //Resets the browser window and initial variables
 
@@ -90,6 +94,7 @@ hitBtn.addEventListener('click', () => {
     renderhit(playerHand);
     playerPoints = calcPoints(playerHand)
     checkBust();
+    checkBlackJack(playerHand);
 })
 // player receives one card, 'bust' state is checked for, double down disabled after first hit
 /* future upgrade: blackjack state checked for and win generated */
@@ -106,37 +111,40 @@ foldBtn.addEventListener('click', () => {
 
 dealBtn.addEventListener('click', () => {
     console.log('feelin lucky?');
-    gameDeck = play(); //generates a new deck and shuffles it
+    gameVariables = play();
+    gameDeck = gameVariables[0];
+    dealer = gameVariables[1];
+    player = gameVariables[2];
     deal(gameDeck);
     renderCards(playerHand, dealerHand);
     checkBlackJack(playerHand); 
     doubleBtn.disabled = false;
     hitBtn.disabled = false;
     dealBtn.disabled = true;
+    
 })
 //deal is only available at the start of the game, AFTER betting. Two card objects each to dealerHand and playerHand which become arrays of objects
 
 nextBtn.addEventListener('click', () => {
-    if (table.wallet == 0 || table.wallet < 0){
+    if (table.wallet === 0){
         renderEndGame();
-    }    
-    confetti.stop();
-    playerHand = [];
-    dealerHand = [];
-    push = false;
-    player.isWinner = null;
-    player.bust = null;
-    dealer.isWinner = null;
-    player.bust = false;
-    player.blackjack = null;
-    dealer.bust = false;
-    hitBtn.disabled = true;
-    playerField.innerHTML = '';
-    dealerField.innerHTML= '';
-    currentBet.innerHTML = '0';
-    table.bet = '';
-    gameDeck = play();
-    renderTable();   
+    }   
+    else if (table.wallet < 0 ){
+        console.log('Here come the loan sharks XO ')
+        renderEndGame();
+    }
+    else {
+        confetti.stop();
+        playerHand = [];
+        dealerHand = [];
+        push = false;
+        hitBtn.disabled = true;
+        playerField.innerHTML = '';
+        dealerField.innerHTML= '';
+        currentBet.innerHTML = '0';
+        table.bet = '';
+        renderTable();
+    }       
 })
 //This button does the majority of the work for this game. It resets all the values, including state variables. It generates and shuffles a new card deck and calls the renderTable() function to prompt the user to bet and begin a new hand.
 
@@ -165,7 +173,7 @@ function createDeck() {
     deck = [];
     for(let i =0; i < suits.length; i++){
         for(let j=0; j <ranks.length; j++){
-            newCard = new card(suits[i], ranks[j], values[j]);
+            newCard = new Card(suits[i], ranks[j], values[j]);
             deck.push(newCard);
         }
     }
@@ -183,6 +191,14 @@ function shuffle(deck) {       //will shuffle using Fisher-Yates method
     return deck;
 } 
 // ----ATTRIBUTION!!!----I DID NOT COME UP WITH FISHER-YATES SHUFFLE-- syntax obtained from frankmitchell.org 
+
+function play() {    
+    let newDeck = createDeck();
+    gameDeck = shuffle(newDeck);
+    let d = new Dealer;
+    let p = new Player;
+    return [gameDeck, d, p];
+}
 
 /*------------------------------------Calculation Functions---------------------------------*/
 
@@ -238,6 +254,8 @@ function checkBlackJack(playerHand) {
     playerPoints = calcPoints(playerHand);
     if (playerPoints === 21) {
         player.blackjack = true;
+        player.isWinner = true;
+        dealer.isWinner = false;
         renderWallet();
         renderEndRound();
     }  
@@ -245,10 +263,13 @@ function checkBlackJack(playerHand) {
 function checkBust() {
     if (playerPoints > 21) {
         player.bust = true;
+        player.isWinner = false;
         renderEndRound();
     }
     else if (dealerPoints > 21){
         dealer.bust = true;
+        dealer.isWinner = false;
+        player.isWinner = true;
         renderEndRound();
     }
     else {
@@ -326,7 +347,7 @@ function renderDHit(dealerHand) {
 }
 
 function renderEndRound(){
-    if(player.blackjack){
+    if((player.blackjack) && (playerHand.length ==2)){
         calcPayout();
         messageOutput.innerHTML = 'BlackJack!! Click Next Hand to Continue';
         confetti.start(5000);
@@ -385,12 +406,6 @@ function renderEndGame() {
 
 /*----------------------------------------Action Functions-------------------------------------------*/
 
-function play() {    
-    let newDeck = createDeck();
-    gameDeck = shuffle(newDeck);
-    return gameDeck;
-}
-//Generates, shuffles and returns a new game deck ready for play
 
 function getBet() {
    table.bet = Number(bet.value);
@@ -415,15 +430,18 @@ function doubleDown() {
 function checkForDealerWin(dealerPoints, playerPoints){
     if (dealerPoints > playerPoints){
         dealer.isWinner = true;
+        player.isWinner = false;
         renderEndRound();
     }
     else if (dealerPoints === playerPoints){
         player.tie = true;
         player.isWinner = false;
+        dealer.isWinner = false;
         renderEndRound();
     }  
     else {
         player.isWinner = true;
+        dealer.iswinner = false;
         renderEndRound(); 
     } 
 }       
@@ -441,6 +459,6 @@ function dealersTurn(dealerHand, gameDeck) {
     checkBust();      
 }
 
-gameDeck = play();
+gameVariables = play();
 renderTable();
 
