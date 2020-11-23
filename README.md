@@ -1,10 +1,12 @@
 # playBlackJack
 This project renders a working blackjack game in the browser using html5, CSS and Javascript technologies.
 
-## Game Features:
-  * Game Logic similar to casino play.
-  * 52 Card Deck.
-  * Soft/Round Aces- Ace value is either 1 or 11 depending on the other cards in the hand.
+## Play!!
+http://insidious-airport.surge.sh/
+
+## Game Features: 
+  * 52 Card Deck with casino style play
+  * Round Aces- Ace value is either 1 or 11 depending on the other cards in the hand.
     * This logic also applies to the dealer.
   * Button Controlled User Interface allowing for:    
   * Multiple user actions per turn
@@ -51,9 +53,6 @@ The majority of content was created using Javascript technologies with heavy use
 
 ### ScreenShot of Final product
 ![playBlackJack-Window](https://user-images.githubusercontent.com/73343168/99925675-9f42b400-2d04-11eb-97e7-3e5c5051476c.png)
-
-## Play!!
-http://insidious-airport.surge.sh/
 
 ### Planned upgrades
 
