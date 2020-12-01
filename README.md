@@ -1,6 +1,11 @@
 # playBlackJack
 This project renders a working blackjack game in the browser using html5, CSS and Javascript technologies.
 
+## Technologies used
+ * hmtl5
+ * CSS
+ * JavaScript
+
 ## Play!!
 http://insidious-airport.surge.sh/
 
