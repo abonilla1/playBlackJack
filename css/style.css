@@ -57,6 +57,18 @@ header{
   align-items: center;
 }
 
+#player-update {
+  position: absolute;
+  margin-top: 20%;
+  margin-right: 40%;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: rgba(240, 226, 147, 0.979);
+  background-color: rgba(112, 6, 6, 0.692);
+  padding: 5px;
+  
+}
+
 #dealer-side {
   display: flex;
   flex-direction: center;

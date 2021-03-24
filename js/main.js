@@ -45,6 +45,7 @@ let gameDeck, playerHand, dealerHand, playerPoints, dealerPoints, push
 /*--------------------------------------- cached element references ---------------------------------*/
 
 const messageOutput = document.getElementById('message');
+const pUpdate = document.getElementById('player-update');
 const wallet = document.getElementById('wallet');
 const field = document.getElementById('playing-field')
 const currentBet = document.getElementById('current-bet');
@@ -143,6 +144,7 @@ nextBtn.addEventListener('click', () => {
         playerField.innerHTML = '';
         dealerField.innerHTML= '';
         currentBet.innerHTML = '0';
+        pUpdate.innerHTML = 'Your points:'
         table.bet = '';
         bet.disabled = false;
         renderTable();
@@ -248,7 +250,8 @@ function calcPoints(hand) {
         adjustedHand.forEach((element) => {
             points += parseInt(element.value);
         }) 
-    }   
+    }
+    pUpdate.innerHTML = `Your Points: ${points}`   
     return points    
 }
 
@@ -282,22 +285,22 @@ function checkBust() {
 /*-------------------------------------Rendering Functions-----------------------------------*/
 
 function renderTable() {
-    if (table.bet === 0 || table.bet === ''){
+    if (table.bet === 0 || table.bet === '') {
         messageOutput.innerText = 'Place your Bet'
         dealBtn.disabled = true;
         hitBtn.disabled = true;
         doubleBtn.disabled = true;
-    } 
-    else if (table.bet <10 || table.bet > 100){
+    }
+    else if (table.bet < 10 || table.bet > 100) {
         messageOutput.innerText = 'Table Minimum of 10 and Maximum of 100';
         dealBtn.disabled = true;
-    }    
+    }
     else {
         dealBtn.disabled = false;
         messageOutput.innerText = `Select next action`
         updateWallet();
         renderWallet();
-    }    
+    }
 } //The render table function holds state of game information, prompts the user to bet and disables/enables buttons accordingly
 
 function updateWallet(){
@@ -404,7 +407,7 @@ function renderEndGame() {
     nextBtn.disabled = true;
 }
 
-/*----------------------------------------Action Functions-------------------------------------------*/
+/*------------------------Action Functions-------------------------------------------*/
 
 
 function getBet() {
