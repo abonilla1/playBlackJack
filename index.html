@@ -15,8 +15,13 @@
         <h1>Play BlackJack!</h1>
     </header>
     <section id='playing-field'>
-        <container id='dealer-side'></container>
-        <container id='player-side'></container>
+        <container id='dealer-side'>
+        </container>
+        <div id='dealer-update'>Dealer</div>
+        <h1 class="ml12">You Won!!</h1>
+        <container id='player-side'>
+        </container>
+        <div id='player-update'>Your points:</div>
     </section>
     <container id='status-box'>
         <h3 id='message'>Message</h3>
@@ -39,6 +44,7 @@
         
     </container>
     <script src="https://cdn.jsdelivr.net/gh/mathusummut/confetti.js/confetti.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
     <script src='js/main.js'></script>
 </body>
 </html>
