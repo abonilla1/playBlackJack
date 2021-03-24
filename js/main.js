@@ -102,6 +102,7 @@ foldBtn.addEventListener('click', () => {
     messageOutput.innerHTML = 'Click Next Hand to Try Again';
     playerField.innerHTML = '';
     dealerField.innerHTML= '';
+    pUpdate.innerHTML = 'Your points:'
     dealBtn.disabled = true;
     hitBtn.disabled = true;
     doubleBtn.disabled = true;
@@ -251,7 +252,7 @@ function calcPoints(hand) {
             points += parseInt(element.value);
         }) 
     }
-    pUpdate.innerHTML = `Your Points: ${points}`   
+    pUpdate.innerHTML = `Your Points: ${points}` 
     return points    
 }
 
@@ -286,7 +287,7 @@ function checkBust() {
 
 function renderTable() {
     if (table.bet === 0 || table.bet === '') {
-        messageOutput.innerText = 'Place your Bet'
+        messageOutput.innerText = 'Place your Bet to deal cards'
         dealBtn.disabled = true;
         hitBtn.disabled = true;
         doubleBtn.disabled = true;
