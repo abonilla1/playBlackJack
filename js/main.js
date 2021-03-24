@@ -59,6 +59,8 @@ let gameDeck, playerHand, dealerHand, playerPoints, dealerPoints, push;
 /*--------------------------------------- cached element references ---------------------------------*/
 
 const messageOutput = document.getElementById("message");
+const music = document.getElementById("music-player");
+const audio = new Audio('./sounds/casino-jazz.mp3')
 const pUpdate = document.getElementById("player-update");
 const wallet = document.getElementById("wallet");
 const field = document.getElementById("playing-field");
@@ -188,6 +190,15 @@ bet.addEventListener("keyup", (e) => {
   textWrapper.classList.add("special");
 });
 //listens for user to enter a bet and submit it. Calls renderTable() to check for appropriate bet value, resets the inner values of the fields AFTER getting the bet
+
+music.addEventListener("click", () => {
+  if (audio.paused) {
+    audio.volume = 0.2;
+    audio.play();
+  } else {
+    audio.pause();
+  }
+})
 
 /*--------------------------------------- FUNCTIONS -------------------------------------------*/
 /*------------------------------------Creation Functions---------------------------------------*/

@@ -34,6 +34,7 @@ header{
     font-size: 2rem;
     text-align: center;
     margin: auto;
+    padding: 10px;
     color:rgba(240, 226, 147, 0.979);
 
 }
@@ -217,6 +218,23 @@ header{
     background-color: rgba(203, 185, 226, 0.822);
 }
 
+#music-player{
+    height: 35px;
+    width: auto;
+    margin: 20px 50px 40px 50px; 
+    background-color:rgb(240, 226, 147);
+    font-weight: bold; 
+}
+
+#music-player:hover{
+    background-color: rgba(203, 185, 226, 0.822);
+}
+
+#music{
+    grid-column-start: 1;
+    grid-row: 3;
+    display: grid;
+}
 
 .special{
     display: none;

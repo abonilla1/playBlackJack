@@ -17,3 +17,5 @@ https://cdn.jsdelivr.net/gh/mathusummut/confetti.js/confetti.min.js
 playBlackJack uses a moving letters animation from https://tobiasahlin.com/moving-letters/#12  Letter animation code is free to use, licensed under MIT. The link for usage is listed below, and the author is not associated with me in any way.
 
 "https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"
+
+playBlackJack uses an mp3 track by the artist Volodymyr Piddubnyk available from StoryBlocks.com under a standard individual license agreement by which "Content is yours to keep and use forever, 100% royalty free". 
