@@ -343,10 +343,12 @@ function renderCards(playerHand, dealerHand) {
   let className2 = `card large ${cardToRender2.name}`;
   newCard2.className = className2;
   dealerField.appendChild(newCard2);
+  pUpdate.innerHTML = `Your Points: `
   let newCard3 = document.createElement("div");
   let className3 = `card large back-blue`;
   newCard3.className = className3;
   dealerField.appendChild(newCard3);
+  pUpdate.innerHTML = `Your Points: `
 } //dealer cards were originally handled with a for each loop but since the second of the dealer's cards needed to be handled separately this function
 
 function renderhit(playerHand) {
