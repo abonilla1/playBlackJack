@@ -49,6 +49,22 @@ header{
     background-image: url("https://static.vecteezy.com/system/resources/previews/000/109/252/original/free-vector-casino-royale-background.jpg");     
     
 }
+.ml12 {
+    font-family: 'Ewert', cursive;
+    font-size: 3rem;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    margin: auto;
+    color:rgba(240, 226, 147, 0.979);
+    text-transform: uppercase;
+    letter-spacing: 1em;
+}
+  
+.ml12 .letter {
+    display: inline-block;
+    line-height: 2em;
+}
 
 #player-side {
   display: flex;
@@ -59,7 +75,7 @@ header{
 
 #player-update {
   position: absolute;
-  margin-top: 20%;
+  margin-top: 0%;
   margin-right: 40%;
   font-size: 1.2rem;
   font-weight: bold;
@@ -79,7 +95,7 @@ header{
 
 #dealer-update {
     position: absolute;
-    margin-bottom: 20%;
+    margin-bottom: 50%;
     margin-right: 40%;
     font-size: 1.2rem;
     font-weight: bold;
@@ -87,7 +103,7 @@ header{
     background-color: rgba(80, 3, 3, 0.74);
     padding: 5px;
     
-  }
+}
 
 #action {
     grid-column-start: 3;
@@ -202,3 +218,6 @@ header{
 }
 
 
+.special{
+    display: none;
+}
